@@ -1,13 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text} from 'react-native';
+import React, {useEffect} from 'react';
 import AuthStack from './stack/AuthStack';
 import {NavigationContainer} from '@react-navigation/native';
 import TabNavigator from './tab/TabNavigator';
-import {storage} from '../sections/Auth/Register/RegisterScreen';
-import useStayLoggedin from '../utils/useStayLoggedin';
-import firebase from 'firebase/compat/app';
 import {useSelector} from 'react-redux';
 import {RootState} from '../redux/store';
+import { storage } from 'constants/app';
 
 const RootNavigator = () => {
   const userId = storage.getString('userId');

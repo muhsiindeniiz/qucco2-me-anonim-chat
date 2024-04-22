@@ -4,6 +4,7 @@ import {
   User,
   UserCredential,
   createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
 } from 'firebase/auth';
 import {getStorage, ref, uploadString, getDownloadURL} from 'firebase/storage';
 
@@ -46,7 +47,6 @@ export const register = async (
     console.error('Kullanıcı kaydedilirken bir hata oluştu:', error);
   }
 };
-import {signInWithEmailAndPassword} from 'firebase/auth';
 
 export const login = async (
   email: string,

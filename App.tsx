@@ -1,11 +1,10 @@
-import {View, Text} from 'react-native';
 import React from 'react';
 import RootNavigator from './src/navigation/RootNavigator';
 import Toast from 'react-native-toast-message';
-import {storage} from './src/sections/Auth/Register/RegisterScreen';
 import {InitialFirebase} from './src/db/Firebase/config';
 import {Provider} from 'react-redux';
 import store from './src/redux/store';
+import { storage } from 'constants/app';
 
 const App = () => {
   storage.delete('email');
@@ -14,7 +13,7 @@ const App = () => {
   storage.delete('username');
   storage.delete('about');
   storage.delete('photo');
-  
+
 
   InitialFirebase();
   return (
