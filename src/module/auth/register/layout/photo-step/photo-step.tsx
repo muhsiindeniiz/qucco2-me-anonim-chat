@@ -5,8 +5,8 @@ import {height, width} from 'react-native-responsive-sizes';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import ImagePicker from 'react-native-image-crop-picker';
-import { storage } from 'constants/app';
-import styles from '@/module/auth/register/style/RegisterScreenStyles';
+import styles from '../../style/RegisterScreenStyles';
+import { storage } from '../../../../../constants/app';
 
 type PhotoScreenProps = {
   handleSetPhoto: (photo: string) => void;

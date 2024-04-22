@@ -1,10 +1,10 @@
 import React, {useRef, useState} from 'react';
 import {View, Animated, TextInput, TouchableOpacity} from 'react-native';
 import {height, width} from 'react-native-responsive-sizes';
-import styles from '@/module/auth/register/style/RegisterScreenStyles';
+import styles from '../../style/RegisterScreenStyles';
 import Feather from 'react-native-vector-icons/Feather';
 import {EmailPasswordStepProps} from './email-password-step.type';
-import {storage} from 'constants/app';
+import {storage} from '../../../../../constants/app';
 
 const EmailPasswordBody = ({
   handleSetEmail,

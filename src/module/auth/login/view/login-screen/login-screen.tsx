@@ -6,9 +6,9 @@ import {width, height, fontSize} from 'react-native-responsive-sizes';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 import styles from './forgot-screen.style';
-import {setLoggedIn} from 'redux/AuthSlice/authSlice';
-import {login} from 'db/Firebase/CRUD';
-import { storage } from 'constants/app';
+import { login } from '../../../../../db/Firebase/CRUD';
+import { storage } from '../../../../../constants/app';
+import { setLoggedIn } from '../../../../../redux/AuthSlice/authSlice';
 
 const LoginScreen = () => {
   const navigation = useNavigation();

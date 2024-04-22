@@ -5,8 +5,8 @@ import Feather from 'react-native-vector-icons/Feather';
 import {width, height, fontSize} from 'react-native-responsive-sizes';
 import {useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
-import { sendPasswordReset } from 'db/Firebase/CRUD';
 import styles from './forgot-screen.style';
+import {sendPasswordReset} from '../../../../../../db/Firebase/CRUD';
 
 const ForgotPassword = () => {
   const navigation = useNavigation();

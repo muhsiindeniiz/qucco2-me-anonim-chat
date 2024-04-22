@@ -1,2 +1,2 @@
-export { default } from '@/module/chat/view/chat-page';
+export { default } from './chat-page';
 export * from './chat-page.type';

@@ -1,2 +1,2 @@
-export { default } from '@/module/stories/view/stories-page';
+export { default } from './stories-page';
 export * from './stories-page.type';

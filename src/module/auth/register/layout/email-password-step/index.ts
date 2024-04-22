@@ -1,2 +1,2 @@
-export { default } from '@/module/auth/register/layout/email-password-step/email-password-step';
-export * from '@/module/auth/register/layout/email-password-step/email-password-step.type';
+export { default } from './email-password-step';
+export * from './email-password-step.type';

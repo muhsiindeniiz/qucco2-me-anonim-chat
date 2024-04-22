@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {storage} from 'constants/app';
+import { storage } from '../constants/app';
 
 const useStayLoggedin = () => {
   const [userId, setUserId] = useState<string | null>('');

@@ -1,2 +1,2 @@
-export { default } from '@/module/vip/view/vip-page/vip-page.tsx';
+export { default } from './vip-page';
 export * from './vip-page.type';

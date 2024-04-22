@@ -1,9 +1,9 @@
 import {View, Animated, Text, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import styles from '@/module/auth/register/style/RegisterScreenStyles';
+import styles from '../../style/RegisterScreenStyles';
 import {fontSize, height, width} from 'react-native-responsive-sizes';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
-import { storage } from 'constants/app';
+import { storage } from '../../../../../constants/app';
 type GenderDateBodyProps = {
   handleSetDate: (date: Date) => void;
   handleSetGender: (gender: string) => void;

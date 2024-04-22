@@ -1,8 +1,8 @@
 import React, {useRef, useState} from 'react';
 import {View, Animated, TextInput, Text} from 'react-native';
 import {height, width} from 'react-native-responsive-sizes';
-import styles from '@/module/auth/register/style/RegisterScreenStyles';
-import { storage } from 'constants/app';
+import styles from '../../style/RegisterScreenStyles';
+import {storage} from '../../../../../constants/app';
 
 type UsernameBodyProps = {
   handleSetUsername: (username: string) => void;

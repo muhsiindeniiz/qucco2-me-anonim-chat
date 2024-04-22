@@ -4,7 +4,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import TabNavigator from './tab/TabNavigator';
 import {useSelector} from 'react-redux';
 import {RootState} from '../redux/store';
-import { storage } from 'constants/app';
+import { storage } from '../constants/app';
 
 const RootNavigator = () => {
   const userId = storage.getString('userId');

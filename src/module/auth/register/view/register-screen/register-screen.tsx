@@ -9,8 +9,8 @@ import EmailPasswordBody from '../../layout/email-password-step/email-password-s
 import GenderDateBody from '../../layout/gender-date-step/gender-date-step';
 import PhotoScreen from '../../layout/photo-step/photo-step';
 import {ControlTexts} from '../../forms/Controller';
-import {register} from 'db/Firebase/CRUD';
 import styles from '../../style/RegisterScreenStyles';
+import { register } from '../../../../../db/Firebase/CRUD';
 
 const RegisterScreen = () => {
   const navigation = useNavigation();
