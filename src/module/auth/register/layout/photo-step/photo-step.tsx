@@ -6,7 +6,8 @@ import IonIcons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import ImagePicker from 'react-native-image-crop-picker';
 import styles from '../../style/RegisterScreenStyles';
-import { storage } from '../../../../../constants/app';
+import {storage} from '../../../../../constants/app';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 type PhotoScreenProps = {
   handleSetPhoto: (photo: string) => void;
@@ -38,18 +39,51 @@ const PhotoScreen = ({handleSetPhoto, handleSetYourself}: PhotoScreenProps) => {
   };
   const handleAddPhoto = (chooseCamera: boolean) => {
     if (chooseCamera === false) {
-      ImagePicker.openCamera({
-        cropping: true,
-      }).then(image => {
-        console.log(image.path);
-        _handleSetPhoto(image.path);
-      });
+      launchCamera(
+        {
+          mediaType: 'photo',
+          includeBase64: false,
+          cameraType: 'front',
+          saveToPhotos: true,
+        },
+        response => {
+          if (response.didCancel) {
+            console.log('User cancelled image picker');
+          } else if (response.errorCode) {
+            console.log('ImagePicker Error: ', response.errorMessage);
+          } else {
+            _handleSetPhoto(response.assets[0].uri);
+          }
+        },
+      );
+      // ImagePicker.openCamera({
+      //   cropping: true,
+      // }).then(image => {
+      //   console.log(image.path);
+      //   _handleSetPhoto(image.path);
+      // });
     } else if (chooseCamera === true) {
-      ImagePicker.openPicker({
-        cropping: true,
-      }).then(image => {
-        _handleSetPhoto(image.path);
-      });
+      //   ImagePicker.openPicker({
+      //     cropping: true,
+      //   }).then(image => {
+      //     _handleSetPhoto(image.path);
+      //   });
+      launchImageLibrary(
+        {
+          mediaType: 'photo',
+          includeBase64: false,
+        },
+        response => {
+          if (response.didCancel) {
+            console.log('User cancelled image picker');
+          } else if (response.errorCode) {
+            console.log('ImagePicker Error: ', response.errorMessage);
+          } else {
+            console.log(response.assets[0].uri);
+            _handleSetPhoto(response.assets[0].uri);
+          }
+        },
+      );
     }
   };
 
@@ -76,14 +110,14 @@ const PhotoScreen = ({handleSetPhoto, handleSetYourself}: PhotoScreenProps) => {
           <MaterialIcons name="add-a-photo" size={height(2.5)} color="white" />
         </TouchableOpacity>
         {open && (
-          <View style={styles.chooseCamerView}>
+          <View style={styles.chooseCameraContainer}>
             <TouchableOpacity
               onPress={() => {
                 setOpen(false);
                 handleAddPhoto(false);
               }}
               style={styles.chooseCameraButton}>
-              <Text style={styles.chooseCamerText}>Fotoğraf Çek</Text>
+              <Text style={styles.chooseCameraText}>Fotoğraf Çek</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
@@ -91,7 +125,7 @@ const PhotoScreen = ({handleSetPhoto, handleSetYourself}: PhotoScreenProps) => {
                 handleAddPhoto(true);
               }}
               style={styles.chooseCameraButton}>
-              <Text style={styles.chooseCamerText}>Galeriden Seç</Text>
+              <Text style={styles.chooseCameraText}>Galeriden Seç</Text>
             </TouchableOpacity>
           </View>
         )}

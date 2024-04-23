@@ -4,7 +4,7 @@ import Toast from 'react-native-toast-message';
 import {InitialFirebase} from './src/db/Firebase/config';
 import {Provider} from 'react-redux';
 import store from './src/redux/store';
-import { storage } from './src/constants/app';
+import {storage} from './src/constants/app';
 
 const App = () => {
   storage.delete('email');
@@ -13,7 +13,6 @@ const App = () => {
   storage.delete('username');
   storage.delete('about');
   storage.delete('photo');
-
 
   InitialFirebase();
   return (

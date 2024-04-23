@@ -1,12 +1,13 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import React from 'react';
-import VipStack from '../stack/VipStack';
+
 import ChatStack from '../stack/ChatStack';
 import StoriesStack from '../stack/StoriesStack';
 import ExploreStack from '../stack/ExploreStack';
 import ProfileStack from '../stack/ProfileStack';
 import TabBar from './TabBar';
+import VipStack from '../stack/VIPStack';
 
 const TabNavigator = () => {
   const tab = createBottomTabNavigator();

@@ -3,7 +3,9 @@ import React, {useEffect, useState} from 'react';
 import styles from '../../style/RegisterScreenStyles';
 import {fontSize, height, width} from 'react-native-responsive-sizes';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
-import { storage } from '../../../../../constants/app';
+import {storage} from '../../../../../constants/app';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+
 type GenderDateBodyProps = {
   handleSetDate: (date: Date) => void;
   handleSetGender: (gender: string) => void;
@@ -82,14 +84,25 @@ const GenderDateBody = ({
           </Text>
         </TouchableOpacity>
         {show && (
-          <RNDateTimePicker
-            value={date}
-            mode={'date'}
-            display="default"
-            onChange={(event, selectedDate) => {
-              const currentDate = selectedDate || date;
+          // <RNDateTimePicker
+          //   value={date}
+          //   mode={'date'}
+          //   display="default"
+          //   onChange={(event, selectedDate) => {
+          //     const currentDate = selectedDate || date;
+          //     setShow(false);
+          //     _handleSetDate(currentDate);
+          //   }}
+          // />
+          <DateTimePickerModal
+            isVisible={show}
+            mode="date"
+            onConfirm={date => {
               setShow(false);
-              _handleSetDate(currentDate);
+              _handleSetDate(date);
+            }}
+            onCancel={() => {
+              setShow(false);
             }}
           />
         )}
