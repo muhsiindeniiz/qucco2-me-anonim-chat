@@ -52,7 +52,7 @@ const PhotoScreen = ({handleSetPhoto, handleSetYourself}: PhotoScreenProps) => {
           } else if (response.errorCode) {
             console.log('ImagePicker Error: ', response.errorMessage);
           } else {
-            _handleSetPhoto(response.assets[0].uri);
+            _handleSetPhoto(response.assets?.[0]?.uri ?? '');
           }
         },
       );
@@ -79,8 +79,8 @@ const PhotoScreen = ({handleSetPhoto, handleSetYourself}: PhotoScreenProps) => {
           } else if (response.errorCode) {
             console.log('ImagePicker Error: ', response.errorMessage);
           } else {
-            console.log(response.assets[0].uri);
-            _handleSetPhoto(response.assets[0].uri);
+            console.log(response.assets?.[0]?.uri);
+            _handleSetPhoto(response.assets?.[0]?.uri ?? '');
           }
         },
       );
