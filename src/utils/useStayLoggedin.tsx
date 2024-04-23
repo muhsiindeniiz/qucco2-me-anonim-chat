@@ -1,6 +1,5 @@
-import {View, Text} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {storage} from '../sections/Auth/Register/RegisterScreen';
+import {useEffect, useState} from 'react';
+import { storage } from '../constants/app';
 
 const useStayLoggedin = () => {
   const [userId, setUserId] = useState<string | null>('');

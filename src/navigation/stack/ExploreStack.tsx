@@ -1,8 +1,6 @@
-import {View, Text} from 'react-native';
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import Stories from '../../sections/Stories/Stories';
-import Explore from '../../sections/Explore/Explore';
+import Explore from '../../module/explore/view/explore-page';
 
 const ExploreStack = () => {
   const stack = createStackNavigator();

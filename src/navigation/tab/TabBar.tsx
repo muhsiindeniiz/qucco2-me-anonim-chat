@@ -1,23 +1,22 @@
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {ATouchable} from '../../components';
 
 const TabBar = ({state, navigation}: any) => {
-  const {routes, index} = state;
+  const {routes} = state;
   const renderTab = (tabName: string, tabIndex: number) => {
-    const isActive = index === tabIndex;
-    const isAddTab = tabName === 'Add';
+    // const isActive = index === tabIndex;
+    // const isAddTab = tabName === 'Add';
 
     const onPress = () => {
       navigation.navigate(tabName);
     };
 
     return (
-      <ATouchable onPress={onPress} key={tabIndex}>
+      <TouchableOpacity onPress={onPress} key={tabIndex}>
         <View>
           <Text>{tabName}</Text>
         </View>
-      </ATouchable>
+      </TouchableOpacity>
     );
   };
   return (

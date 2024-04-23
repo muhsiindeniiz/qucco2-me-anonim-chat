@@ -1,8 +1,6 @@
-import {View, Text} from 'react-native';
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import Stories from '../../sections/Stories/Stories';
-import Chat from '../../sections/Chat/Chat';
+import Chat from '../../module/chat/view/chat-page';
 
 const ChatStack = () => {
   const stack = createStackNavigator();

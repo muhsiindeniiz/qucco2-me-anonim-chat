@@ -1,8 +1,6 @@
-import {View, Text} from 'react-native';
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import Stories from '../../sections/Stories/Stories';
-import Profile from '../../sections/Profile/Profile';
+import Profile from '../../module/profile/view/profile-page';
 
 const ProfileStack = () => {
   const stack = createStackNavigator();

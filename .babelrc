@@ -1,0 +1,15 @@
+{
+    "plugins": [
+        [
+            "module-resolver",
+            {
+                "extensions": [
+                    ".js",
+                    ".ts",
+                    ".tsx",
+                    ".json"
+                ]
+            }
+        ]
+    ]
+}

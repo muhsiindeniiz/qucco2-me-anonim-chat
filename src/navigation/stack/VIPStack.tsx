@@ -1,11 +1,8 @@
-import {View, Text} from 'react-native';
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import Stories from '../../sections/Stories/Stories';
-import Explore from '../../sections/Explore/Explore';
-import VIP from '../../sections/VIP/VIP';
+import VipPage from '../../module/vip/view/vip-page';
 
-const VIPStack = () => {
+const VipStack = () => {
   const stack = createStackNavigator();
   return (
     <stack.Navigator
@@ -13,9 +10,9 @@ const VIPStack = () => {
         headerShown: false,
       }}>
       {/* add screens */}
-      <stack.Screen name="VIP" component={VIP} />
+      <stack.Screen name="VIP" component={VipPage} />
     </stack.Navigator>
   );
 };
 
-export default VIPStack;
+export default VipStack;
