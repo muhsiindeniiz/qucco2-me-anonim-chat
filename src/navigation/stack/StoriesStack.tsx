@@ -9,7 +9,6 @@ const StoriesStack = () => {
       screenOptions={{
         headerShown: false,
       }}>
-      {/* add screens */}
       <stack.Screen name="Stories" component={Stories} />
     </stack.Navigator>
   );

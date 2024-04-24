@@ -65,8 +65,9 @@ const EmailPasswordBody = ({
       />
       <TextInput
         placeholder="Email"
-        placeholderTextColor={'#a3a6d8'}
+        placeholderTextColor="#fff"
         value={email}
+        autoCapitalize="none"
         onChangeText={text => {
           _handleSetEmail(text);
         }}
@@ -89,9 +90,10 @@ const EmailPasswordBody = ({
       />
       <TextInput
         placeholder="Password"
-        placeholderTextColor={'#a3a6d8'}
+        placeholderTextColor="#fff"
         value={password}
         secureTextEntry={!showPassword}
+        autoCapitalize="none"
         onChangeText={text => {
           _handleSetPassword(text);
         }}

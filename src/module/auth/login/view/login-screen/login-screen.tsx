@@ -5,10 +5,10 @@ import Feather from 'react-native-vector-icons/Feather';
 import {width, height, fontSize} from 'react-native-responsive-sizes';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
-import styles from './forgot-screen.style';
-import { login } from '../../../../../db/Firebase/CRUD';
-import { storage } from '../../../../../constants/app';
-import { setLoggedIn } from '../../../../../redux/AuthSlice/authSlice';
+import styles from './login-screen.style';
+import {login} from '../../../../../db/Firebase/CRUD';
+import {storage} from '../../../../../constants/app';
+import {setLoggedIn} from '../../../../../redux/AuthSlice/authSlice';
 
 const LoginScreen = () => {
   const navigation = useNavigation();
@@ -63,7 +63,7 @@ const LoginScreen = () => {
             left: width(2),
           }}
           name="chevron-left"
-          size={20}
+          size={32}
           color="white"
         />
         <Text style={styles.headerText}>Login</Text>
@@ -83,7 +83,8 @@ const LoginScreen = () => {
         />
         <TextInput
           placeholder="UserName"
-          placeholderTextColor={'#a3a6d8'}
+          placeholderTextColor="#fff"
+          autoCapitalize="none"
           value={email}
           onChangeText={setEmail}
           onFocus={() => handleFocus('email')}
@@ -105,7 +106,8 @@ const LoginScreen = () => {
         />
         <TextInput
           placeholder="Password"
-          placeholderTextColor={'#a3a6d8'}
+          placeholderTextColor="#fff"
+          autoCapitalize="none"
           value={password}
           secureTextEntry={!showPassword}
           onChangeText={setPassword}

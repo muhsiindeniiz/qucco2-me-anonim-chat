@@ -4,7 +4,6 @@ import {TextInput} from 'react-native-gesture-handler';
 import {height, width} from 'react-native-responsive-sizes';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import ImagePicker from 'react-native-image-crop-picker';
 import styles from '../../style/RegisterScreenStyles';
 import {storage} from '../../../../../constants/app';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
@@ -56,18 +55,7 @@ const PhotoScreen = ({handleSetPhoto, handleSetYourself}: PhotoScreenProps) => {
           }
         },
       );
-      // ImagePicker.openCamera({
-      //   cropping: true,
-      // }).then(image => {
-      //   console.log(image.path);
-      //   _handleSetPhoto(image.path);
-      // });
     } else if (chooseCamera === true) {
-      //   ImagePicker.openPicker({
-      //     cropping: true,
-      //   }).then(image => {
-      //     _handleSetPhoto(image.path);
-      //   });
       launchImageLibrary(
         {
           mediaType: 'photo',

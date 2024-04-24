@@ -15,7 +15,7 @@ export default StyleSheet.create({
 
     width: '100%',
     height: height(5),
-    top: height(2),
+    top: height(6),
   },
 
   headerText: {
@@ -57,7 +57,6 @@ export default StyleSheet.create({
 
     borderColor: 'white',
     borderRadius: size(10),
-    paddingLeft: width(5),
     fontSize: fontSize(14),
     marginBottom: height(5),
   },

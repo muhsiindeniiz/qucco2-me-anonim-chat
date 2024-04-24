@@ -1,22 +1,22 @@
-import {StyleSheet} from 'react-native';
-import {width, height, size, fontSize} from 'react-native-responsive-sizes';
+import { StyleSheet } from 'react-native';
+import { width, height, size, fontSize } from 'react-native-responsive-sizes';
 
 export default StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#5B61B9',
+    backgroundColor: '#23374A',
+    position: 'relative',
   },
   header: {
     position: 'absolute',
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-
     width: '100%',
     height: height(5),
-    top: height(2),
+    top: height(6),
   },
 
   headerText: {
@@ -36,7 +36,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: size(1000),
-    backgroundColor: '#343875',
+    backgroundColor: '#06101B',
     opacity: 0.8,
   },
   nextText: {
@@ -55,10 +55,8 @@ export default StyleSheet.create({
     width: width(90),
     height: height(6),
     color: 'white',
-
     borderColor: 'white',
     borderRadius: size(10),
-    paddingLeft: width(5),
     fontSize: fontSize(14),
     marginBottom: height(5),
   },
@@ -129,7 +127,7 @@ export default StyleSheet.create({
     height: width(50),
     top: height(-3),
     borderRadius: size(1000),
-    backgroundColor: '#343875',
+    backgroundColor: '#06101B',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -137,7 +135,7 @@ export default StyleSheet.create({
     width: width(50),
     height: width(50),
     borderRadius: size(1000),
-    resizeMode: 'contain',
+    resizeMode: 'cover',
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
@@ -174,7 +172,7 @@ export default StyleSheet.create({
     height: height(4),
     borderRadius: size(10),
     marginHorizontal: width(1),
-    backgroundColor: '#80ed99',
+    backgroundColor: '#06101B',
     alignItems: 'center',
     justifyContent: 'center',
   },

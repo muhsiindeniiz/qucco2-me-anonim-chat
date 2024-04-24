@@ -10,7 +10,7 @@ import GenderDateBody from '../../layout/gender-date-step/gender-date-step';
 import PhotoScreen from '../../layout/photo-step/photo-step';
 import {ControlTexts} from '../../forms/Controller';
 import styles from '../../style/RegisterScreenStyles';
-import { register } from '../../../../../db/Firebase/CRUD';
+import {register} from '../../../../../db/Firebase/CRUD';
 
 const RegisterScreen = () => {
   const navigation = useNavigation();
@@ -95,7 +95,7 @@ const RegisterScreen = () => {
               left: width(2),
             }}
             name="chevron-left"
-            size={20}
+            size={32}
             color="white"
             onPress={onPreviousPressed}
           />

@@ -57,7 +57,7 @@ const ForgotPassword = () => {
             position: 'absolute',
             left: width(2),
           }}>
-          <Entypo name="chevron-left" size={20} color="white" />
+          <Entypo name="chevron-left" size={32} color="white" />
         </TouchableOpacity>
         <Text style={styles.headerText}>Forgot Password</Text>
       </View>
@@ -79,6 +79,7 @@ const ForgotPassword = () => {
           placeholderTextColor={'#a3a6d8'}
           value={email}
           onChangeText={setEmail}
+          autoCapitalize="none"
           onFocus={() => handleFocus('email')}
           onBlur={() => handleBlur('email')}
           style={styles.input}

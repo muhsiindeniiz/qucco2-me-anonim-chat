@@ -1,25 +1,37 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import AuthStack from './stack/AuthStack';
-import {NavigationContainer} from '@react-navigation/native';
 import TabNavigator from './tab/TabNavigator';
-import {useSelector} from 'react-redux';
-import {RootState} from '../redux/store';
-import { storage } from '../constants/app';
+import {NavigationContainer} from '@react-navigation/native';
+import {storage} from '../constants/app';
+import SplashScreen from '../components/splash-screen';
 
-const RootNavigator = () => {
-  const userId = storage.getString('userId');
-  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+const AppNavigator = () => {
+  const [loading, setLoading] = useState(true);
+  const [authenticated, setAuthenticated] = useState(false);
+
   useEffect(() => {
-    if (isLoggedIn !== false) {
-      console.log('isLoggedIn', isLoggedIn);
-    }
-  }, [isLoggedIn, userId]);
+    const checkAuthentication = async () => {
+      const userId = await storage.getString('userId');
+      if (userId) {
+        setAuthenticated(true);
+      }
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    };
+
+    checkAuthentication();
+  }, []);
+
+  if (loading) {
+    return <SplashScreen />;
+  }
 
   return (
     <NavigationContainer>
-      {userId !== undefined ? <TabNavigator /> : <AuthStack />}
+      {authenticated ? <TabNavigator /> : <AuthStack />}
     </NavigationContainer>
   );
 };
 
-export default RootNavigator;
+export default AppNavigator;

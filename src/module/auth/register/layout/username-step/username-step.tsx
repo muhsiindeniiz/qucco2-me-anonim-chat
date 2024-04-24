@@ -47,8 +47,9 @@ const UsernameBody = ({handleSetUsername}: UsernameBodyProps) => {
       />
       <TextInput
         placeholder="UserName"
-        placeholderTextColor={'#a3a6d8'}
+        placeholderTextColor="#fff"
         value={username}
+        autoCapitalize="none"
         onChangeText={text => {
           _handleSetUsername(text);
         }}
