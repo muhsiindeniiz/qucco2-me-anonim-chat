@@ -1,6 +1,6 @@
 import {View, Text, SafeAreaView, TouchableOpacity, Switch} from 'react-native';
-import React, {useState} from 'react';
-import style from './setting-page.style';
+import React from 'react';
+import styles from './setting-page.style';
 import {useNavigation} from '@react-navigation/native';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 
@@ -8,21 +8,20 @@ const SettingPage = () => {
   const navigation = useNavigation();
 
   return (
-    <SafeAreaView style={style.container}>
-      <View style={style.header}>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
         <TouchableOpacity
           onPress={() => {
             navigation.navigate('Profile');
           }}>
-          <IonIcons name="chevron-back" size={24} style={style.setting} />
+          <IonIcons name="chevron-back" size={24} style={styles.setting} />
         </TouchableOpacity>
-        <Text style={style.title}>Settings</Text>
-        <View></View>
+        <Text style={styles.title}>Settings</Text>
       </View>
 
-      <View style={style.properties}>
-        <View style={style.page}>
-          <Text style={style.label}>Theme</Text>
+      <View style={styles.properties}>
+        <View style={styles.page}>
+          <Text style={styles.label}>Theme</Text>
           <Switch ios_backgroundColor="#3e3e3e" />
         </View>
       </View>
