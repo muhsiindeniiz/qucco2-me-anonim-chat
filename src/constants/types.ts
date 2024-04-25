@@ -10,6 +10,9 @@ export type UserType = {
   friends?: UserType[];
   posts?: PostType[];
 };
+export type Strings = {
+[key: string]: string;
+};
 export type FriendType = {
   id: string;
   username: string;

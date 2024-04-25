@@ -1,5 +1,13 @@
 import {FIREBASE_AUTH} from './config';
-import {getFirestore, doc, setDoc} from 'firebase/firestore';
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDocs,
+  where,
+  collection,
+  query,
+} from 'firebase/firestore';
 import {
   User,
   UserCredential,
@@ -10,6 +18,18 @@ import {getStorage, ref, uploadString, getDownloadURL} from 'firebase/storage';
 
 const db = getFirestore();
 const storage = getStorage();
+export const checkUsernameExists = async (username: string) => {
+  const usernameQuerySnapshot = await getDocs(
+    query(collection(db, 'users'), where('username', '==', username)),
+  );
+  return !usernameQuerySnapshot.empty;
+};
+export const checkEmailExists = async (email: string) => {
+  const emailQuerySnapshot = await getDocs(
+    query(collection(db, 'users'), where('email', '==', email)),
+  );
+  return !emailQuerySnapshot.empty;
+};
 
 export const register = async (
   email: string,
@@ -17,17 +37,17 @@ export const register = async (
   username: string,
   about: string,
   photo: string,
-) => {
+): Promise<string | null> => {
   try {
-    // Firebase Authentication ile kullanıcı oluştur
+    // Kullanıcıyı Firebase Authentication ile oluştur
     const userCredential = await createUserWithEmailAndPassword(
       FIREBASE_AUTH,
       email,
       password,
     );
     const id = userCredential.user.uid;
-    // Fotoğrafı storage'a yükle
 
+    // Fotoğrafı storage'a yükle
     const photoRef = ref(storage, `users/${id}/profilePicture.jpg`);
     await uploadString(photoRef, photo);
 
@@ -36,6 +56,7 @@ export const register = async (
 
     // Firestore'da kullanıcı bilgilerini kaydet
     await setDoc(doc(db, 'users', id), {
+      id,
       email,
       username,
       about,
@@ -43,19 +64,34 @@ export const register = async (
     });
 
     console.log('Kullanıcı başarıyla kaydedildi.');
+    return id; // Kullanıcı id'sini döndür
   } catch (error) {
     console.error('Kullanıcı kaydedilirken bir hata oluştu:', error);
+    return null; // Hata durumunda null döndür
   }
 };
 
 export const login = async (
-  email: string,
+  username: string,
   password: string,
 ): Promise<User | null> => {
   try {
+    // Kullanıcı adına göre kullanıcıyı bul
+    const userQuerySnapshot = await getDocs(
+      query(collection(db, 'users'), where('username', '==', username)),
+    );
+    if (userQuerySnapshot.empty) {
+      throw new Error('Kullanıcı bulunamadı.');
+    }
+
+    // Kullanıcının email adresini al
+    const userDoc = userQuerySnapshot.docs[0];
+    const userEmail = userDoc.data().email;
+
+    // Firebase Authentication ile giriş yap
     const userCredential: UserCredential = await signInWithEmailAndPassword(
       FIREBASE_AUTH,
-      email,
+      userEmail,
       password,
     );
     const user: User = userCredential.user;
@@ -66,6 +102,7 @@ export const login = async (
     return null;
   }
 };
+
 import {sendPasswordResetEmail} from 'firebase/auth';
 
 export const sendPasswordReset = async (email: string) => {

@@ -3,6 +3,7 @@ import {View, Animated, TextInput, Text} from 'react-native';
 import {height, width} from 'react-native-responsive-sizes';
 import styles from '../../style/RegisterScreenStyles';
 import {storage} from '../../../../../constants/app';
+import strings from '../../../../../locale/locale';
 
 type UsernameBodyProps = {
   handleSetUsername: (username: string) => void;
@@ -46,7 +47,7 @@ const UsernameBody = ({handleSetUsername}: UsernameBodyProps) => {
         }}
       />
       <TextInput
-        placeholder="UserName"
+        placeholder={strings.username}
         placeholderTextColor="#fff"
         value={username}
         autoCapitalize="none"
@@ -57,10 +58,7 @@ const UsernameBody = ({handleSetUsername}: UsernameBodyProps) => {
         onBlur={handleEmailBlur}
         style={styles.input}
       />
-      <Text style={styles.desc}>
-        Kullanıcı adını seçerek başla. Bu, aynı zamanda insanların seninle
-        mesajlaşabileceği adresin olacak.
-      </Text>
+      <Text style={styles.desc}>{strings.usernameTitle}</Text>
     </View>
   );
 };

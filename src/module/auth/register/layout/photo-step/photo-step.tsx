@@ -7,6 +7,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import styles from '../../style/RegisterScreenStyles';
 import {storage} from '../../../../../constants/app';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import strings from '../../../../../locale/locale';
 
 type PhotoScreenProps = {
   handleSetPhoto: (photo: string) => void;
@@ -85,7 +86,7 @@ const PhotoScreen = ({handleSetPhoto, handleSetYourself}: PhotoScreenProps) => {
 
   return (
     <View style={styles.body}>
-      <Text style={styles.addAPhoto}>Add Photo</Text>
+      <Text style={styles.addAPhoto}>{strings.addPhoto}</Text>
       <View style={styles.photoContainer}>
         {photo ? (
           <Image source={{uri: photo}} style={styles.photo} />
@@ -105,7 +106,7 @@ const PhotoScreen = ({handleSetPhoto, handleSetYourself}: PhotoScreenProps) => {
                 handleAddPhoto(false);
               }}
               style={styles.chooseCameraButton}>
-              <Text style={styles.chooseCameraText}>Fotoğraf Çek</Text>
+              <Text style={styles.chooseCameraText}>{strings.takePhoto}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
@@ -113,7 +114,9 @@ const PhotoScreen = ({handleSetPhoto, handleSetYourself}: PhotoScreenProps) => {
                 handleAddPhoto(true);
               }}
               style={styles.chooseCameraButton}>
-              <Text style={styles.chooseCameraText}>Galeriden Seç</Text>
+              <Text style={styles.chooseCameraText}>
+                {strings.chooseFromLibrary}
+              </Text>
             </TouchableOpacity>
           </View>
         )}
@@ -131,7 +134,7 @@ const PhotoScreen = ({handleSetPhoto, handleSetYourself}: PhotoScreenProps) => {
         }}
       />
       <TextInput
-        placeholder="About yourself"
+        placeholder={strings.about}
         placeholderTextColor={'#a3a6d8'}
         value={yourself}
         onChangeText={text => {

@@ -7,6 +7,7 @@ import {useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import styles from './forgot-screen.style';
 import {sendPasswordReset} from '../../../../../../db/Firebase/CRUD';
+import {resetEmailSuccessToast} from '../../../../../../utils/toasts';
 
 const ForgotPassword = () => {
   const navigation = useNavigation();
@@ -29,11 +30,7 @@ const ForgotPassword = () => {
   };
   const _handleReset = async () => {
     await sendPasswordReset(email).then(() => {
-      Toast.show({
-        type: 'success',
-        text1: 'Success',
-        text2: 'Password reset email sent.',
-      });
+      resetEmailSuccessToast();
       navigation.goBack();
       setEmail('');
     });

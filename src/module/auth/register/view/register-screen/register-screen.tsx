@@ -10,10 +10,26 @@ import GenderDateBody from '../../layout/gender-date-step/gender-date-step';
 import PhotoScreen from '../../layout/photo-step/photo-step';
 import {ControlTexts} from '../../forms/Controller';
 import styles from '../../style/RegisterScreenStyles';
-import {register} from '../../../../../db/Firebase/CRUD';
+import {
+  checkEmailExists,
+  checkUsernameExists,
+  register,
+} from '../../../../../db/Firebase/CRUD';
+import {
+  emailErrorToast,
+  passwordErrorToast,
+} from '../../layout/email-password-step/email-password-controls';
+import {
+  emailAlreadyExistsToast,
+  usernameAlreadyExistsToast,
+} from '../../../../../utils/toasts';
+import {storage} from '../../../../../constants/app';
+import {useDispatch} from 'react-redux';
+import {setLoggedIn} from '../../../../../redux/AuthSlice/authSlice';
 
 const RegisterScreen = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [data, setData] = useState({
     username: '',
     email: '',
@@ -61,6 +77,23 @@ const RegisterScreen = () => {
 
   const onNextPressed = async () => {
     if (currentBodyIndex !== bodies.length - 1) {
+      if (currentBodyIndex === 0) {
+        const exists = await checkUsernameExists(data.username);
+        if (exists) {
+          return usernameAlreadyExistsToast();
+        }
+      }
+      if (currentBodyIndex === 1) {
+        const exists = await checkEmailExists(data.email);
+        const emailToast = emailErrorToast({email: data.email});
+        const passwordToast = passwordErrorToast({password: data.password});
+        if (passwordToast !== true || emailToast !== true) {
+          return;
+        }
+        if (exists) {
+          return emailAlreadyExistsToast();
+        }
+      }
       const isDataValid = ControlTexts(data, currentBodyIndex);
       if (isDataValid && currentBodyIndex < bodies.length - 1) {
         animateToIndex(currentBodyIndex + 1);
@@ -74,7 +107,12 @@ const RegisterScreen = () => {
           data.username,
           data.about,
           data.photo,
-        ).then(() => navigation.navigate('LoginScreen'));
+        ).then(id => {
+          if (id !== null) {
+            storage.set('userId', JSON.stringify(id));
+            dispatch(setLoggedIn(true));
+          }
+        });
       }
     }
   };

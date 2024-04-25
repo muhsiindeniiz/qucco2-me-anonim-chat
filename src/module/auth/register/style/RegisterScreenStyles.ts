@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import { width, height, size, fontSize } from 'react-native-responsive-sizes';
+import {StyleSheet} from 'react-native';
+import {width, height, size, fontSize} from 'react-native-responsive-sizes';
 
 export default StyleSheet.create({
   container: {
@@ -168,7 +168,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   chooseCameraButton: {
-    width: width(25),
+    width: width(28),
     height: height(4),
     borderRadius: size(10),
     marginHorizontal: width(1),
@@ -178,6 +178,25 @@ export default StyleSheet.create({
   },
   chooseCameraText: {
     color: 'white',
-    fontSize: fontSize(11),
+    fontSize: fontSize(8),
+  },
+  controls: {
+    position: 'absolute',
+    flexDirection: 'column',
+    width: width(70),
+    height: height(15),
+    top: height(20),
+    left: width(5),
+  },
+  controlItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    marginBottom: height(1),
+  },
+  controlText: {
+    textAlign: 'left',
+    fontSize: fontSize(7),
+    marginBottom: height(1),
   },
 });

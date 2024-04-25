@@ -5,6 +5,9 @@ import {fontSize, height, width} from 'react-native-responsive-sizes';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 import {storage} from '../../../../../constants/app';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import Toast from 'react-native-toast-message';
+import strings from '../../../../../locale/locale';
+import {ageErrorToast} from '../../../../../utils/toasts';
 
 type GenderDateBodyProps = {
   handleSetDate: (date: Date) => void;
@@ -23,6 +26,23 @@ const GenderDateBody = ({
   const [gender, setGender] = useState(storage.getString('gender') || '');
   const [animation] = useState(new Animated.Value(0));
   const _handleSetDate = (date: Date) => {
+    // Kullanıcının yaşını hesapla
+    const today = new Date();
+    const birthDate = new Date(date);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birthDate.getDate())
+    ) {
+      age--;
+    }
+
+    // 18 yaşından küçükse uyarı ver
+    if (age < 18) {
+      return ageErrorToast();
+    }
+
     setDate(date);
     handleSetDate(date);
     storage.set('date', date.toString());
@@ -75,7 +95,7 @@ const GenderDateBody = ({
           }}>
           <Text style={styles.datePicker}>
             {date.getDate() === new Date().getDate()
-              ? 'Date of Birth'
+              ? strings.dateofbirth
               : date.getDate() +
                 '/' +
                 (date.getMonth() + 1) +
@@ -124,7 +144,7 @@ const GenderDateBody = ({
           }}
           style={styles.genderTouchable}>
           <Text style={styles.datePicker}>
-            {gender === '' ? 'Gender' : gender}
+            {gender === '' ? strings.gender : gender}
           </Text>
         </TouchableOpacity>
         <Animated.View
@@ -164,7 +184,7 @@ const GenderDateBody = ({
                     color: 'grey',
                     fontSize: fontSize(11),
                   }}>
-                  Female
+                  {strings.female}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -184,7 +204,7 @@ const GenderDateBody = ({
                     color: 'grey',
                     fontSize: fontSize(11),
                   }}>
-                  Male
+                  {strings.male}
                 </Text>
               </TouchableOpacity>
             </View>

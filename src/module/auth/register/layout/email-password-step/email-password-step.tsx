@@ -5,6 +5,8 @@ import styles from '../../style/RegisterScreenStyles';
 import Feather from 'react-native-vector-icons/Feather';
 import {EmailPasswordStepProps} from './email-password-step.type';
 import {storage} from '../../../../../constants/app';
+import {PasswordControls, checkPassword} from './email-password-controls';
+import strings from '../../../../../locale/locale';
 
 const EmailPasswordBody = ({
   handleSetEmail,
@@ -15,6 +17,7 @@ const EmailPasswordBody = ({
   const [showPassword, setShowPassword] = useState(false);
   const emailBorderBottomWidth = useRef(new Animated.Value(1)).current;
   const passwordBorderBottomWidth = useRef(new Animated.Value(1)).current;
+
   const _handleSetEmail = (email: string) => {
     setEmail(email);
     handleSetEmail(email);
@@ -36,6 +39,7 @@ const EmailPasswordBody = ({
   const handleEmailFocus = () => {
     animateBorder(emailBorderBottomWidth, 2.5);
   };
+  // eslint-disable-next-line react/no-unstable-nested-components
 
   const handleEmailBlur = () => {
     animateBorder(emailBorderBottomWidth, 1);
@@ -64,8 +68,9 @@ const EmailPasswordBody = ({
         }}
       />
       <TextInput
-        placeholder="Email"
+        placeholder={strings.email}
         placeholderTextColor="#fff"
+        keyboardType="email-address"
         value={email}
         autoCapitalize="none"
         onChangeText={text => {
@@ -89,13 +94,15 @@ const EmailPasswordBody = ({
         }}
       />
       <TextInput
-        placeholder="Password"
+        placeholder={strings.password}
         placeholderTextColor="#fff"
+        keyboardType="default"
         value={password}
         secureTextEntry={!showPassword}
         autoCapitalize="none"
         onChangeText={text => {
           _handleSetPassword(text);
+          checkPassword(text);
         }}
         onFocus={handlePasswordFocus}
         onBlur={handlePasswordBlur}
@@ -115,6 +122,7 @@ const EmailPasswordBody = ({
           color="white"
         />
       </TouchableOpacity>
+      <PasswordControls password={password} />
     </View>
   );
 };

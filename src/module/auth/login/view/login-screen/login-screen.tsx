@@ -9,6 +9,7 @@ import styles from './login-screen.style';
 import {login} from '../../../../../db/Firebase/CRUD';
 import {storage} from '../../../../../constants/app';
 import {setLoggedIn} from '../../../../../redux/AuthSlice/authSlice';
+import {emptyFieldToast, wrongLoginToast} from '../../../../../utils/toasts';
 
 const LoginScreen = () => {
   const navigation = useNavigation();
@@ -33,14 +34,15 @@ const LoginScreen = () => {
     }).start();
   };
   const _handleLogin = async () => {
-    console.log('login');
     if (email === '' || password === '') {
-      return;
+      return emptyFieldToast();
     }
     await login(email, password).then(user => {
       if (user !== null) {
         storage.set('userId', JSON.stringify(user.uid));
         dispatch(setLoggedIn(true));
+      } else {
+        return wrongLoginToast();
       }
     });
   };
@@ -57,15 +59,6 @@ const LoginScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Entypo
-          style={{
-            position: 'absolute',
-            left: width(2),
-          }}
-          name="chevron-left"
-          size={32}
-          color="white"
-        />
         <Text style={styles.headerText}>Login</Text>
       </View>
       <View style={styles.body}>
