@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    height: 80,
+    height: 70,
     backgroundColor: '#06101B',
   },
 });
