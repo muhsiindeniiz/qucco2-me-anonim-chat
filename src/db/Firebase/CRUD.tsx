@@ -126,7 +126,6 @@ export const login = async (
       password,
     );
     const user: User = userCredential.user;
-    console.log('Kullanıcı başarıyla giriş yaptı.');
     return user;
   } catch (error) {
     console.error('Kullanıcı girişi yapılırken bir hata oluştu:', error);

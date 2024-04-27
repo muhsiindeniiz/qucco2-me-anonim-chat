@@ -84,8 +84,7 @@ const SettingPage = () => {
       console.error('Error logging out:', error);
     }
   };
-  const isloggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
-  console.log(isloggedIn);
+
   const handleConfirmLogout = () => {
     setIsLogoutModalVisible(false);
     handleLogout();
