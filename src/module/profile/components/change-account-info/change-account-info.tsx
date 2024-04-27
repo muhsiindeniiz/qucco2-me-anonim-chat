@@ -9,6 +9,8 @@ import {
 } from './change-account-info.type';
 import NotificationSetting from '../notification-setting';
 import UsernameSetting from '../username-setting';
+import PasswordSetting from '../password-setting';
+import EmailSetting from '../email-setting';
 
 const ChangeAccountInfo = () => {
   const navigation = useNavigation();
@@ -31,6 +33,8 @@ const ChangeAccountInfo = () => {
       <View style={styles.dynamicForm}>
         {type === ACCOUNT_SETTING_TYPE.notification && <NotificationSetting />}
         {type === ACCOUNT_SETTING_TYPE.username && <UsernameSetting />}
+        {type === ACCOUNT_SETTING_TYPE.password && <PasswordSetting />}
+        {type === ACCOUNT_SETTING_TYPE.email && <EmailSetting />}
       </View>
     </SafeAreaView>
   );

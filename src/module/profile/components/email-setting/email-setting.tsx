@@ -1,62 +1,55 @@
-import {
-  View,
-  TextInput,
-  Touchable,
-  TouchableHighlight,
-  Text,
-  Alert,
-} from 'react-native';
+import {View, TextInput, TouchableHighlight, Text, Alert} from 'react-native';
 import React, {useState} from 'react';
-import styles from './username-setting.style';
-import useStayLoggedin from '../../../../utils/useStayLoggedin';
+import styles from './email-setting.style';
 import {
   EmailAuthProvider,
   getAuth,
   reauthenticateWithCredential,
+  updateEmail,
 } from 'firebase/auth';
-import {doc, updateDoc} from 'firebase/firestore';
+import {doc, getDoc, updateDoc} from 'firebase/firestore';
 import {firestore} from '../../../../db/Firebase/config';
+import {useNavigation} from '@react-navigation/native';
 
-const UsernameSetting = () => {
-  const id = useStayLoggedin();
-
-  const [newUsername, setNewUsername] = useState('');
+const EmailSetting = () => {
+  const [newEmail, setNewEmail] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
   const auth = getAuth();
+  const user = auth.currentUser;
+
   const navigation = useNavigation();
-  const changeUsername = async () => {
-    if (!newUsername || !currentPassword) {
-      Alert.alert('Please enter both New Username and Current Password');
+  const changeEmail = async () => {
+    if (!newEmail || !currentPassword) {
+      Alert.alert('Please enter both New Email and Current Password');
       return;
     }
 
     try {
-      const user = auth.currentUser;
-
-      // Check if user is logged in
       if (!user) {
-        Alert.alert('You are not logged in. Please log in to change username.');
+        Alert.alert('You are not logged in. Please log in to change email.');
         return;
       }
 
-      // Reauthenticate with current password for security
       const credential = EmailAuthProvider.credential(
         user.email,
         currentPassword,
       );
       await reauthenticateWithCredential(user, credential);
 
-      // Update username in Firestore
-      const userDocRef = doc(firestore, 'users', user.uid); // Use user's uid for path
-      await updateDoc(userDocRef, {username: newUsername});
+      // Güncel e-posta adresini Firebase Authentication'da güncelle
+      await updateEmail(user, newEmail);
 
-      Alert.alert('Username changed successfully!', '', [
+      // Firestore'da kullanıcının e-posta adresini güncelle
+      const userDocRef = doc(firestore, 'users', user.uid);
+      await updateDoc(userDocRef, {email: newEmail});
+
+      Alert.alert('Email changed successfully!', '', [
         {text: 'OK', onPress: () => navigation.navigate('Setting')},
       ]);
-      setNewUsername(''); // Clear input fields after success
+      setNewEmail('');
       setCurrentPassword('');
     } catch (error) {
-      console.error('Error changing username:', error);
+      console.error('Error changing email:', error);
       if (error.code === 'auth/wrong-password') {
         Alert.alert('Incorrect Current Password');
       } else {
@@ -70,18 +63,18 @@ const UsernameSetting = () => {
       <View style={styles.properties}>
         <View style={[styles.page, styles.borderBottomActive]}>
           <TextInput
-            placeholder="New Username"
+            placeholder="Email"
             style={styles.input}
             placeholderTextColor="#454D57"
             autoCapitalize="none"
-            value={newUsername}
-            onChangeText={setNewUsername}
+            defaultValue={user?.email ?? ''}
+            onChangeText={setNewEmail}
           />
         </View>
 
         <View style={[styles.page, styles.borderBottomPassive]}>
           <TextInput
-            placeholder="Current Password"
+            placeholder="Password"
             secureTextEntry={true}
             style={styles.input}
             placeholderTextColor="#454D57"
@@ -93,7 +86,7 @@ const UsernameSetting = () => {
       </View>
       <TouchableHighlight
         underlayColor="#0C223B"
-        onPress={changeUsername}
+        onPress={changeEmail}
         style={styles.button}>
         <Text style={styles.saveText}>Save</Text>
       </TouchableHighlight>
@@ -101,4 +94,4 @@ const UsernameSetting = () => {
   );
 };
 
-export default UsernameSetting;
+export default EmailSetting;
