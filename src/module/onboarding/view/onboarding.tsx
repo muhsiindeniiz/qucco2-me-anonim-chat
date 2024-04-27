@@ -13,9 +13,10 @@ import Paginator from '../components/paginator';
 import {height, size} from 'react-native-responsive-sizes';
 import strings from '../../../locale/locale';
 import {useNavigation} from '@react-navigation/native';
+import {AuthStackNavProp} from '../../../navigation/stack/auth-stack/auth-stack-types';
 
 const Onboarding = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<AuthStackNavProp>();
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
   const slidesRef = useRef(null);

@@ -1,9 +1,10 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import Chat from '../../module/chat/view/chat-page';
+import Chat from '../../../module/chat/view/chat-page';
+import {ChatStackParamList} from './chat-stack-types';
 
 const ChatStack = () => {
-  const stack = createStackNavigator();
+  const stack = createStackNavigator<ChatStackParamList>();
   return (
     <stack.Navigator
       screenOptions={{

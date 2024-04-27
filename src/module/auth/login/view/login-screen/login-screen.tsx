@@ -1,6 +1,5 @@
 import React, {useState, useRef} from 'react';
 import {View, Text, TextInput, Animated, TouchableOpacity} from 'react-native';
-import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import {width, height, fontSize} from 'react-native-responsive-sizes';
 import {useNavigation} from '@react-navigation/native';
@@ -10,9 +9,10 @@ import {login} from '../../../../../db/Firebase/CRUD';
 import {storage} from '../../../../../constants/app';
 import {setLoggedIn} from '../../../../../redux/AuthSlice/authSlice';
 import {emptyFieldToast, wrongLoginToast} from '../../../../../utils/toasts';
+import {AuthStackNavProp} from '../../../../../navigation/stack/auth-stack/auth-stack-types';
 
 const LoginScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<AuthStackNavProp>();
   const dispatch = useDispatch();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');

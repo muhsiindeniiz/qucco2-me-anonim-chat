@@ -2,12 +2,12 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import React from 'react';
 
-import ChatStack from '../stack/ChatStack';
-import StoriesStack from '../stack/StoriesStack';
-import ExploreStack from '../stack/ExploreStack';
-import ProfileStack from '../stack/ProfileStack';
+import ChatStack from '../stack/chat-stack/chat-stack';
+import StoriesStack from '../stack/stories-stack/stories-stack';
+import ExploreStack from '../stack/explore-stack/explore-stack';
+import ProfileStack from '../stack/profile-stack/profile-stack';
 import TabBar from './TabBar';
-import VipStack from '../stack/VIPStack';
+import VipStack from '../stack/vıp-stack/vıp-stack';
 
 const TabNavigator = () => {
   const tab = createBottomTabNavigator();

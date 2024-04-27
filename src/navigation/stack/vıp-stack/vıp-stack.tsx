@@ -1,8 +1,8 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import Explore from '../../module/explore/view/explore-page';
+import VipPage from '../../../module/vip/view/vip-page';
 
-const ExploreStack = () => {
+const VipStack = () => {
   const stack = createStackNavigator();
   return (
     <stack.Navigator
@@ -10,9 +10,9 @@ const ExploreStack = () => {
         headerShown: false,
       }}>
       {/* add screens */}
-      <stack.Screen name="Explore" component={Explore} />
+      <stack.Screen name="VIP" component={VipPage} />
     </stack.Navigator>
   );
 };
 
-export default ExploreStack;
+export default VipStack;

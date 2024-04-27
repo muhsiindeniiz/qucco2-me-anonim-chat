@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import AuthStack from './stack/AuthStack';
+import AuthStack from './stack/auth-stack/auth-stack';
 import TabNavigator from './tab/TabNavigator';
 import {NavigationContainer} from '@react-navigation/native';
 import {storage} from '../constants/app';

@@ -34,22 +34,4 @@ export type CommentType = {
   date: string;
   user: UserType;
 };
-export type AuthStackParamList = {
-  Login: undefined;
-  Register: undefined;
-};
-export type HomeStackParamList = {
-  Home: undefined;
-};
-export type ProfileStackParamList = {
-  Profile: undefined;
-};
-export type RootStackParamList = {
-  Auth: undefined;
-  Home: undefined;
-  Profile: undefined;
-};
-export type TabParamList = {
-  Home: undefined;
-  Profile: undefined;
-};
+

@@ -1,12 +1,13 @@
 import React from 'react';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
-import loginScreen from '../../module/auth/login/view/login-screen';
-import RegisterScreen from '../../module/auth/register/view/register-screen/register-screen';
-import ForgotPassword from '../../module/auth/login/view/forgot-screen/view/forgot-screen';
-import Onboarding from '../../module/onboarding/view/onboarding';
+import loginScreen from '../../../module/auth/login/view/login-screen';
+import RegisterScreen from '../../../module/auth/register/view/register-screen/register-screen';
+import ForgotPassword from '../../../module/auth/login/view/forgot-screen/view/forgot-screen';
+import Onboarding from '../../../module/onboarding/view/onboarding';
+import {AuthStackParamList} from './auth-stack-types';
 
 const AuthStack = () => {
-  const stack = createStackNavigator();
+  const stack = createStackNavigator<AuthStackParamList>();
   return (
     <stack.Navigator
       screenOptions={{
