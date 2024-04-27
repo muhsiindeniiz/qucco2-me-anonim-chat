@@ -1,10 +1,9 @@
 import { StyleSheet } from 'react-native';
-import { size, fontSize, SCREEN_WIDTH } from 'react-native-responsive-sizes';
+import { size, fontSize, SCREEN_WIDTH, width } from 'react-native-responsive-sizes';
 export default StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#06101B',
-        paddingVertical: size(20),
     },
     header: {
         paddingVertical: size(10),
@@ -27,24 +26,99 @@ export default StyleSheet.create({
         paddingLeft: size(20),
         backgroundColor: '#131D28',
     },
-    section: {
-        marginBottom: size(20)
-    },
     page: {
         paddingVertical: size(12),
-        borderBottomColor: '#555',
-        borderBottomWidth: 1,
         display: 'flex',
         justifyContent: 'space-between',
         flexDirection: 'row',
-        paddingRight: size(10)
+        alignItems: 'center',
+        paddingRight: size(10),
+        borderBottomWidth: 1,
+    },
+    borderBottomActive: {
+        borderBottomColor: '#555',
+    },
+    borderBottomPassive: {
+        borderBottomColor: '#06101B',
     },
     label: {
         color: '#fff',
     },
-    borderBottom: {
-        paddingVertical: size(12),
-        borderBottomColor: '#555',
-        borderBottomWidth: 0
-    }
+    accountLabel: {
+        color: '#FF461C',
+    },
+    switch: {
+        transform: [{ scaleX: 0.7 }, { scaleY: 0.7 }],
+    },
+    logo: {
+        width: size(100),
+        height: size(100),
+        objectFit: 'contain',
+        marginTop: size(20),
+        marginLeft: 'auto',
+        marginRight: 'auto',
+    },
+    version: {
+        fontSize: fontSize(10),
+        color: '#fff',
+        textAlign: 'center',
+        marginTop: size(10)
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: '#052747',
+        alignItems: 'center',
+        paddingTop: size(20),
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        borderBottomRightRadius: 10,
+        borderBottomLeftRadius: 10,
+    },
+    modalTitle: {
+        marginBottom: size(5),
+        textAlign: 'center',
+        fontSize: fontSize(14),
+        color: '#fff',
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: 'center',
+        color: '#fff',
+    },
+    modalButtonContainer: {
+        flexDirection: 'row',
+        width: SCREEN_WIDTH - width(34),
+        backgroundColor: '#23374A',
+        borderBottomRightRadius: 10,
+        borderBottomLeftRadius: 10,
+    },
+    cancelButton: {
+        padding: 10,
+        borderBottomLeftRadius: size(12),
+        flexGrow: 1,
+        borderBottomStartRadius: 10,
+    },
+    cancelButtonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontSize: fontSize(12)
+    },
+    logoutButton: {
+        padding: 10,
+        backgroundColor: '#E94218',
+        borderBottomEndRadius: size(12),
+        flexGrow: 1,
+    },
+    logoutButtonText: {
+        color: 'white',
+        textAlign: 'center',
+        fontSize: fontSize(12)
+    },
 });

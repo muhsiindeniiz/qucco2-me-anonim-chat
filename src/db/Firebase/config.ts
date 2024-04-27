@@ -1,6 +1,7 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/analytics';
-import {getAuth} from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 const firebaseConfig = {
   apiKey: 'AIzaSyDGKkBn4Sx9cK3vTvCix0-fRV1r5tzt_bc',
   authDomain: 'qucco2me-1a36e.firebaseapp.com',
@@ -17,4 +18,5 @@ export const InitialFirebase = () => {
   }
 };
 export const firebaseApp = firebase.initializeApp(firebaseConfig);
+export const firestore = getFirestore(firebaseApp);
 export const FIREBASE_AUTH = getAuth(firebaseApp);
