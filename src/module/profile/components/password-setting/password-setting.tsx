@@ -1,4 +1,11 @@
-import {View, TextInput, TouchableHighlight, Text, Alert} from 'react-native';
+import {
+  View,
+  TextInput,
+  TouchableHighlight,
+  Text,
+  Alert,
+  ActivityIndicator,
+} from 'react-native';
 import React, {useState} from 'react';
 import styles from './password-setting.style';
 import {
@@ -13,6 +20,7 @@ const PasswordSetting = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const auth = getAuth();
   const navigation = useNavigation();
 
@@ -26,7 +34,7 @@ const PasswordSetting = () => {
       Alert.alert('New passwords do not match.');
       return;
     }
-
+    setIsLoading(true);
     try {
       const user = auth.currentUser;
 
@@ -56,6 +64,8 @@ const PasswordSetting = () => {
       } else {
         Alert.alert('An error occurred. Please try again later.');
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -103,8 +113,13 @@ const PasswordSetting = () => {
       <TouchableHighlight
         underlayColor="#0C223B"
         onPress={changePassword}
-        style={styles.button}>
-        <Text style={styles.saveText}>Save</Text>
+        style={[styles.button, {opacity: isLoading ? 0.5 : 1}]}
+        disabled={isLoading}>
+        {isLoading ? (
+          <ActivityIndicator size="small" color="#ffffff" />
+        ) : (
+          <Text style={styles.saveText}>Save</Text>
+        )}
       </TouchableHighlight>
     </>
   );

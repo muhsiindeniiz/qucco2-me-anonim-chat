@@ -32,7 +32,6 @@ const SettingPage = () => {
   const id = useStayLoggedin();
   const [settings, setSettings] = useState<SettingType | null>(null);
   const auth = getAuth();
-  const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -77,7 +76,7 @@ const SettingPage = () => {
 
   const handleLogout = async () => {
     try {
-      await signOut(auth).then(resp => console.log(resp));
+      await signOut(auth);
       storage.delete('userId');
       dispatch(setLoggedIn(false));
     } catch (error) {

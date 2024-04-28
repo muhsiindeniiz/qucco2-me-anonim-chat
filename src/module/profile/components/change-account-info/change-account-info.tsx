@@ -11,6 +11,7 @@ import NotificationSetting from '../notification-setting';
 import UsernameSetting from '../username-setting';
 import PasswordSetting from '../password-setting';
 import EmailSetting from '../email-setting';
+import BlockedList from '../blocked-list';
 
 const ChangeAccountInfo = () => {
   const navigation = useNavigation();
@@ -35,6 +36,7 @@ const ChangeAccountInfo = () => {
         {type === ACCOUNT_SETTING_TYPE.username && <UsernameSetting />}
         {type === ACCOUNT_SETTING_TYPE.password && <PasswordSetting />}
         {type === ACCOUNT_SETTING_TYPE.email && <EmailSetting />}
+        {type === ACCOUNT_SETTING_TYPE.block && <BlockedList />}
       </View>
     </SafeAreaView>
   );

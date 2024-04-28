@@ -5,6 +5,7 @@ import {
   TouchableHighlight,
   Text,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useState} from 'react';
 import styles from './username-setting.style';
@@ -16,12 +17,14 @@ import {
 } from 'firebase/auth';
 import {doc, updateDoc} from 'firebase/firestore';
 import {firestore} from '../../../../db/Firebase/config';
+import {useNavigation} from '@react-navigation/native';
 
 const UsernameSetting = () => {
   const id = useStayLoggedin();
 
   const [newUsername, setNewUsername] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const auth = getAuth();
   const navigation = useNavigation();
   const changeUsername = async () => {
@@ -29,25 +32,22 @@ const UsernameSetting = () => {
       Alert.alert('Please enter both New Username and Current Password');
       return;
     }
-
+    setIsLoading(true);
     try {
       const user = auth.currentUser;
 
-      // Check if user is logged in
       if (!user) {
         Alert.alert('You are not logged in. Please log in to change username.');
         return;
       }
 
-      // Reauthenticate with current password for security
       const credential = EmailAuthProvider.credential(
         user.email,
         currentPassword,
       );
       await reauthenticateWithCredential(user, credential);
 
-      // Update username in Firestore
-      const userDocRef = doc(firestore, 'users', user.uid); // Use user's uid for path
+      const userDocRef = doc(firestore, 'users', user.uid);
       await updateDoc(userDocRef, {username: newUsername});
 
       Alert.alert('Username changed successfully!', '', [
@@ -62,6 +62,8 @@ const UsernameSetting = () => {
       } else {
         Alert.alert('An error occurred. Please try again later.');
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -94,8 +96,13 @@ const UsernameSetting = () => {
       <TouchableHighlight
         underlayColor="#0C223B"
         onPress={changeUsername}
-        style={styles.button}>
-        <Text style={styles.saveText}>Save</Text>
+        style={[styles.button, {opacity: isLoading ? 0.5 : 1}]}
+        disabled={isLoading}>
+        {isLoading ? (
+          <ActivityIndicator size="small" color="#ffffff" />
+        ) : (
+          <Text style={styles.saveText}>Save</Text>
+        )}
       </TouchableHighlight>
     </>
   );

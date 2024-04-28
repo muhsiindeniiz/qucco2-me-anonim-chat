@@ -1,4 +1,11 @@
-import {View, TextInput, TouchableHighlight, Text, Alert} from 'react-native';
+import {
+  View,
+  TextInput,
+  TouchableHighlight,
+  Text,
+  Alert,
+  ActivityIndicator,
+} from 'react-native';
 import React, {useState} from 'react';
 import styles from './email-setting.style';
 import {
@@ -16,14 +23,14 @@ const EmailSetting = () => {
   const [currentPassword, setCurrentPassword] = useState('');
   const auth = getAuth();
   const user = auth.currentUser;
-
+  const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
   const changeEmail = async () => {
     if (!newEmail || !currentPassword) {
       Alert.alert('Please enter both New Email and Current Password');
       return;
     }
-
+    setIsLoading(true);
     try {
       if (!user) {
         Alert.alert('You are not logged in. Please log in to change email.');
@@ -55,6 +62,8 @@ const EmailSetting = () => {
       } else {
         Alert.alert('An error occurred. Please try again later.');
       }
+    } finally {
+      setIsLoading(false); // İşlem tamamlandığında loading durumunu false yap
     }
   };
 
@@ -87,8 +96,13 @@ const EmailSetting = () => {
       <TouchableHighlight
         underlayColor="#0C223B"
         onPress={changeEmail}
-        style={styles.button}>
-        <Text style={styles.saveText}>Save</Text>
+        style={[styles.button, {opacity: isLoading ? 0.5 : 1}]}
+        disabled={isLoading}>
+        {isLoading ? (
+          <ActivityIndicator size="small" color="#ffffff" />
+        ) : (
+          <Text style={styles.saveText}>Save</Text>
+        )}
       </TouchableHighlight>
     </>
   );
