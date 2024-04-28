@@ -5,7 +5,6 @@ import styles from './notification-setting.style';
 import {doc, getDoc, updateDoc} from 'firebase/firestore';
 import {firestore} from '../../../../db/Firebase/config';
 import {NotificationType} from './notification-setting.type';
-import {getNotification} from '../../query/setting';
 
 const NotificationSetting = () => {
   const id = useStayLoggedin();
