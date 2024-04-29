@@ -9,10 +9,10 @@ import {
 } from 'react-native';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {doc, getDoc, updateDoc} from 'firebase/firestore';
 import {firestore} from '../../../../db/Firebase/config';
 import useStayLoggedin from '../../../../utils/useStayLoggedin';
 import styles from './blocked-list.style';
-import {doc, getDoc, deleteDoc, setDoc, updateDoc} from 'firebase/firestore';
 
 interface ListItem {
   key: string;
@@ -20,32 +20,31 @@ interface ListItem {
   username: string;
 }
 
-const rowSwipeAnimatedValues: {[key: string]: Animated.Value} = {};
-Array(20)
-  .fill('')
-  .forEach((_, i) => {
-    rowSwipeAnimatedValues[`${i}`] = new Animated.Value(0);
-  });
-
 const BlockedList: React.FC = () => {
   const id = useStayLoggedin();
   const [listData, setListData] = useState<ListItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  const rowSwipeAnimatedValues: {[key: string]: Animated.Value} = {};
+  Array(20)
+    .fill('')
+    .forEach((_, i) => {
+      rowSwipeAnimatedValues[`${i}`] = new Animated.Value(0);
+    });
+
   useEffect(() => {
     const fetchBlockedUsers = async () => {
       setIsLoading(true);
       try {
-        const blockedUsersRef = doc(firestore, 'blocked', id);
-        const blockedUsersDoc = await getDoc(blockedUsersRef);
-        if (blockedUsersDoc.exists()) {
-          const blockedUsersData = blockedUsersDoc.data();
-          if (
-            blockedUsersData &&
-            blockedUsersData.users &&
-            Array.isArray(blockedUsersData.users)
-          ) {
-            const usersList: ListItem[] = blockedUsersData.users.map(
+        if (!id) {
+          return;
+        }
+        const userRef = doc(firestore, 'users', id);
+        const userDoc = await getDoc(userRef);
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          if (userData.blocked && Array.isArray(userData.blocked)) {
+            const usersList: ListItem[] = userData.blocked.map(
               (user: any, index: number) => ({
                 key: `${index}`,
                 userId: user.userId,
@@ -54,10 +53,10 @@ const BlockedList: React.FC = () => {
             );
             setListData(usersList);
           } else {
-            console.warn('Blocked users data is invalid:', blockedUsersData);
+            console.warn('Blocked users data is invalid:', userData);
           }
         } else {
-          console.warn('Blocked users data not found for user:', id);
+          console.warn('User data not found for user:', id);
         }
       } catch (error) {
         console.error('Error fetching blocked users:', error);
@@ -69,20 +68,23 @@ const BlockedList: React.FC = () => {
   }, [id]);
 
   const deleteRow = async (rowMap: any, rowKey: string, userId: string) => {
+    if (!id) {
+      return;
+    }
     try {
-      const userRef = doc(firestore, 'blocked', id);
+      const userRef = doc(firestore, 'users', id);
       const userDoc = await getDoc(userRef);
       if (userDoc.exists()) {
         const userData = userDoc.data();
-        const updatedUsers = userData.users.filter(
+        const updatedBlocked = userData.blocked.filter(
           (user: any) => user.userId !== userId,
         );
-        await updateDoc(userRef, {users: updatedUsers});
+        await updateDoc(userRef, {blocked: updatedBlocked});
         const updatedList = listData.filter(item => item.userId !== userId);
         setListData(updatedList);
         closeRow(rowMap, rowKey);
       } else {
-        console.warn('Blocked users data not found for user:', id);
+        console.warn('User data not found for user:', id);
       }
     } catch (error) {
       console.error('Error removing user from blocked list: ', error);
@@ -111,7 +113,7 @@ const BlockedList: React.FC = () => {
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnLeft]}
         onPress={() => closeRow(rowMap, data.item.key)}>
-        <Text style={styles.backTextWhite}>Close</Text>
+        <Text style={styles.backTextWhite}>Cancel</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnRight]}
@@ -151,9 +153,6 @@ const BlockedList: React.FC = () => {
           renderHiddenItem={renderHiddenItem}
           leftOpenValue={75}
           rightOpenValue={-150}
-          previewRowKey={'0'}
-          previewOpenValue={-40}
-          previewOpenDelay={3000}
           onSwipeValueChange={onSwipeValueChange}
         />
       )}

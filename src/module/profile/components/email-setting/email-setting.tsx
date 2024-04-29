@@ -34,7 +34,7 @@ const EmailSetting = () => {
     setIsLoading(true);
 
     try {
-      if (!user) {
+      if (!user || !user.email) {
         Alert.alert('You are not logged in. Please log in to change email.');
         return;
       }

@@ -15,11 +15,10 @@ const NotificationSetting = () => {
 
   useEffect(() => {
     const fetchNotification = async () => {
-      if (!id) {
-        return;
-      }
-
       try {
+        if (!id) {
+          return;
+        }
         const userDocRef = doc(firestore, 'users', id);
         const docSnapshot = await getDoc(userDocRef);
         if (docSnapshot.exists()) {

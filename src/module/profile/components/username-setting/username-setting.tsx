@@ -8,7 +8,11 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import styles from './username-setting.style';
-import {EmailAuthProvider, getAuth, reauthenticateWithCredential} from 'firebase/auth';
+import {
+  EmailAuthProvider,
+  getAuth,
+  reauthenticateWithCredential,
+} from 'firebase/auth';
 import {doc, updateDoc} from 'firebase/firestore';
 import {firestore} from '../../../../db/Firebase/config';
 import {useNavigation} from '@react-navigation/native';
@@ -34,7 +38,7 @@ const UsernameSetting = () => {
     try {
       const user = auth.currentUser;
 
-      if (!user) {
+      if (!user || !user.email || !id) {
         Alert.alert('You are not logged in. Please log in to change username.');
         return;
       }
