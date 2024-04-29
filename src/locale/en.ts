@@ -55,4 +55,5 @@ export const en: Strings = {
   wrongLoginDesc: 'Please check your username or password',
   emptyField: 'Please fill in all fields',
   emptyFieldDesc: 'Please fill in all fields to continue',
+  search: 'Search',
 };

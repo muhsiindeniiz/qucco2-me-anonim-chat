@@ -1,17 +1,8 @@
 import Toast from 'react-native-toast-message';
-type ControlTextsProps = {
-  username: string;
-  email: string;
-  password: string;
-  date: Date;
-  gender: string;
-  photo: string;
-  about: string;
-};
-export const ControlTexts = (
-  {username, email, password, date, gender, photo, about}: ControlTextsProps,
-  index: number,
-) => {
+import {UserType} from '../../../../constants/types';
+
+export const ControlTexts = (props: UserType, index: number) => {
+  const {username, email, password, birthdate, gender, photo, about} = props;
   if (index === 0 && username === '') {
     Toast.show({
       visibilityTime: 1000,
@@ -39,7 +30,7 @@ export const ControlTexts = (
       position: 'bottom',
     });
     return false; // Hata durumunda false dön
-  } else if (index === 2 && date === new Date()) {
+  } else if (index === 2 && birthdate === new Date()) {
     Toast.show({
       visibilityTime: 1000,
       type: 'error',

@@ -57,4 +57,5 @@ export const tr: Strings = {
   wrongLoginDesc: 'Lütfen kullanıcı adınızı veya şifrenizi kontrol edin',
   emptyField: 'Lütfen tüm alanları doldurun',
   emptyFieldDesc: 'Devam etmek için lütfen tüm alanları doldurun',
+  search: 'Ara',
 };

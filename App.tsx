@@ -13,7 +13,6 @@ const App = () => {
   storage.delete('username');
   storage.delete('about');
   storage.delete('photo');
-
   InitialFirebase();
   return (
     <Provider store={store}>

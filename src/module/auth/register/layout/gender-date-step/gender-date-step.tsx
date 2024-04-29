@@ -2,10 +2,8 @@ import {View, Animated, Text, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import styles from '../../style/RegisterScreenStyles';
 import {fontSize, height, width} from 'react-native-responsive-sizes';
-import RNDateTimePicker from '@react-native-community/datetimepicker';
 import {storage} from '../../../../../constants/app';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import Toast from 'react-native-toast-message';
 import strings from '../../../../../locale/locale';
 import {ageErrorToast} from '../../../../../utils/toasts';
 

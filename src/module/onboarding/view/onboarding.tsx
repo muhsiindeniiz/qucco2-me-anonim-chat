@@ -14,7 +14,13 @@ import {height, size} from 'react-native-responsive-sizes';
 import strings from '../../../locale/locale';
 import {useNavigation} from '@react-navigation/native';
 import {AuthStackNavProp} from '../../../navigation/stack/auth-stack/auth-stack-types';
-
+import {storage} from '../../../constants/app';
+storage.delete('email');
+storage.delete('password');
+storage.delete('gender');
+storage.delete('username');
+storage.delete('about');
+storage.delete('photo');
 const Onboarding = () => {
   const navigation = useNavigation<AuthStackNavProp>();
   const [currentIndex, setCurrentIndex] = useState(0);

@@ -16,7 +16,7 @@ import {
 } from 'firebase/auth';
 import {getStorage, ref, uploadString, getDownloadURL} from 'firebase/storage';
 
-const db = getFirestore();
+export const db = getFirestore();
 const storage = getStorage();
 export const checkUsernameExists = async (username: string) => {
   const usernameQuerySnapshot = await getDocs(
@@ -31,13 +31,8 @@ export const checkEmailExists = async (email: string) => {
   return !emailQuerySnapshot.empty;
 };
 
-export const register = async (
-  email: string,
-  password: string,
-  username: string,
-  about: string,
-  photo: string,
-): Promise<string | null> => {
+export const register = async (props: UserType): Promise<string | null> => {
+  const {email, password, username, about, photo, birthdate} = props;
   try {
     // Kullanıcıyı Firebase Authentication ile oluştur
     const userCredential = await createUserWithEmailAndPassword(
@@ -56,11 +51,37 @@ export const register = async (
 
     // Firestore'da kullanıcı bilgilerini kaydet
     await setDoc(doc(db, 'users', id), {
-      id,
       email,
       username,
       about,
       photo: photoURL,
+      createdAt: new Date().toISOString(),
+      birthdate,
+      biography: '',
+      followers: [],
+      following: [],
+      tags: [],
+      gallery: [],
+      status: '',
+      settings: {
+        lastSeen: true,
+        notifications: {
+          information: true,
+          audio: true,
+          text: true,
+          video: true,
+          photo: true,
+          story: true,
+        },
+        showShuffle: true,
+        help: '',
+      },
+      blocked: [
+        {
+          username: '',
+          userId: '',
+        },
+      ],
     });
 
     console.log('Kullanıcı başarıyla kaydedildi.');
@@ -104,6 +125,7 @@ export const login = async (
 };
 
 import {sendPasswordResetEmail} from 'firebase/auth';
+import {UserType} from '../../constants/types';
 
 export const sendPasswordReset = async (email: string) => {
   try {

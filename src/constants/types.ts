@@ -1,17 +1,23 @@
 export type UserType = {
   id: string;
+  username: string;
   email: string;
   password: string;
-  username: string;
-  photo: string;
+  name: string;
+  birthdate: string;
+  gender: string;
   about: string;
+  photo: string;
+  gallery: string[];
+  tags: string[];
   createdAt: string;
-
-  friends?: UserType[];
-  posts?: PostType[];
+  followers: string[];
+  following: string[];
+  settings: settings;
+  blocked: Blocked[];
 };
 export type Strings = {
-[key: string]: string;
+  [key: string]: string;
 };
 export type FriendType = {
   id: string;
@@ -34,4 +40,21 @@ export type CommentType = {
   date: string;
   user: UserType;
 };
-
+export type settings = {
+  lastSeen: boolean;
+  notifications: Notifications;
+  showShuffle: boolean;
+  help: string;
+};
+export type Notifications = {
+  information: boolean;
+  audio: boolean;
+  text: boolean;
+  video: boolean;
+  photo: boolean;
+  story: boolean;
+};
+export type Blocked = {
+  username: string;
+  userId: string;
+};

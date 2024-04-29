@@ -1,6 +1,7 @@
 import React, {useState, useRef} from 'react';
 import {View, Text, TextInput, Animated, TouchableOpacity} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
+import Entypo from 'react-native-vector-icons/Entypo';
 import {width, height, fontSize} from 'react-native-responsive-sizes';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
@@ -60,6 +61,16 @@ const LoginScreen = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>Login</Text>
+        <Entypo
+          name="chevron-left"
+          size={fontSize(30)}
+          color="white"
+          onPress={() => navigation.navigate('OnboardingScreen')}
+          style={{
+            position: 'absolute',
+            left: width(2),
+          }}
+        />
       </View>
       <View style={styles.body}>
         <Animated.View

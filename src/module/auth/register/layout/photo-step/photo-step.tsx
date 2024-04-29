@@ -1,5 +1,12 @@
-import React, {useRef, useState} from 'react';
-import {View, Animated, Image, Text, TouchableOpacity} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {
+  View,
+  Animated,
+  Image,
+  Text,
+  TouchableOpacity,
+  PermissionsAndroid,
+} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
 import {height, width} from 'react-native-responsive-sizes';
 import IonIcons from 'react-native-vector-icons/Ionicons';
@@ -18,8 +25,34 @@ const PhotoScreen = ({handleSetPhoto, handleSetYourself}: PhotoScreenProps) => {
   const [yourself, setYourself] = useState<string>(
     storage.getString('about') || '',
   );
+
   const [open, setOpen] = useState<boolean>(false);
   const emailBorderBottomWidth = useRef(new Animated.Value(1)).current;
+
+  const requestCameraPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: 'App Camera Permission',
+          message: 'App needs access to your camera',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('Camera permission granted');
+      } else {
+        console.log('Camera permission denied');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+  useEffect(() => {
+    requestCameraPermission();
+  }, []);
   const _handleSetPhoto = (photo: string) => {
     setPhoto(photo);
     handleSetPhoto(photo);
