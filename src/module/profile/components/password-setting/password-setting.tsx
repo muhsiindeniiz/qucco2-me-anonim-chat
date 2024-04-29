@@ -1,12 +1,12 @@
+import React, {useState} from 'react';
 import {
   View,
   TextInput,
-  TouchableHighlight,
   Text,
   Alert,
   ActivityIndicator,
+  TouchableHighlight,
 } from 'react-native';
-import React, {useState} from 'react';
 import styles from './password-setting.style';
 import {
   EmailAuthProvider,
@@ -34,7 +34,9 @@ const PasswordSetting = () => {
       Alert.alert('New passwords do not match.');
       return;
     }
+
     setIsLoading(true);
+
     try {
       const user = auth.currentUser;
 
@@ -47,18 +49,20 @@ const PasswordSetting = () => {
         user.email,
         currentPassword,
       );
-      await reauthenticateWithCredential(user, credential);
 
+      await reauthenticateWithCredential(user, credential);
       await updatePassword(user, newPassword);
 
       Alert.alert('Password changed successfully!', '', [
         {text: 'OK', onPress: () => navigation.navigate('Setting')},
       ]);
+
       setNewPassword('');
       setConfirmPassword('');
       setCurrentPassword('');
     } catch (error) {
       console.error('Error changing password:', error);
+
       if (error.code === 'auth/wrong-password') {
         Alert.alert('Incorrect Current Password');
       } else {

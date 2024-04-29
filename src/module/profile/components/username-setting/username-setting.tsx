@@ -1,23 +1,18 @@
+import React, {useState} from 'react';
 import {
   View,
   TextInput,
-  Touchable,
-  TouchableHighlight,
   Text,
   Alert,
   ActivityIndicator,
+  TouchableHighlight,
 } from 'react-native';
-import React, {useState} from 'react';
 import styles from './username-setting.style';
-import useStayLoggedin from '../../../../utils/useStayLoggedin';
-import {
-  EmailAuthProvider,
-  getAuth,
-  reauthenticateWithCredential,
-} from 'firebase/auth';
+import {EmailAuthProvider, getAuth, reauthenticateWithCredential} from 'firebase/auth';
 import {doc, updateDoc} from 'firebase/firestore';
 import {firestore} from '../../../../db/Firebase/config';
 import {useNavigation} from '@react-navigation/native';
+import useStayLoggedin from '../../../../utils/useStayLoggedin';
 
 const UsernameSetting = () => {
   const id = useStayLoggedin();
@@ -27,12 +22,15 @@ const UsernameSetting = () => {
   const [isLoading, setIsLoading] = useState(false);
   const auth = getAuth();
   const navigation = useNavigation();
+
   const changeUsername = async () => {
     if (!newUsername || !currentPassword) {
       Alert.alert('Please enter both New Username and Current Password');
       return;
     }
+
     setIsLoading(true);
+
     try {
       const user = auth.currentUser;
 
@@ -45,18 +43,27 @@ const UsernameSetting = () => {
         user.email,
         currentPassword,
       );
+
       await reauthenticateWithCredential(user, credential);
 
-      const userDocRef = doc(firestore, 'users', user.uid);
-      await updateDoc(userDocRef, {username: newUsername});
+      const userDocRef = doc(firestore, 'users', id);
+
+      await updateDoc(userDocRef, {
+        username: newUsername,
+      });
 
       Alert.alert('Username changed successfully!', '', [
-        {text: 'OK', onPress: () => navigation.navigate('Setting')},
+        {
+          text: 'OK',
+          onPress: () => navigation.navigate('Setting'),
+        },
       ]);
+
       setNewUsername(''); // Clear input fields after success
       setCurrentPassword('');
     } catch (error) {
       console.error('Error changing username:', error);
+
       if (error.code === 'auth/wrong-password') {
         Alert.alert('Incorrect Current Password');
       } else {

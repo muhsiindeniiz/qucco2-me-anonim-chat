@@ -30,7 +30,9 @@ const EmailSetting = () => {
       Alert.alert('Please enter both New Email and Current Password');
       return;
     }
+
     setIsLoading(true);
+
     try {
       if (!user) {
         Alert.alert('You are not logged in. Please log in to change email.');
@@ -43,10 +45,8 @@ const EmailSetting = () => {
       );
       await reauthenticateWithCredential(user, credential);
 
-      // Güncel e-posta adresini Firebase Authentication'da güncelle
       await updateEmail(user, newEmail);
 
-      // Firestore'da kullanıcının e-posta adresini güncelle
       const userDocRef = doc(firestore, 'users', user.uid);
       await updateDoc(userDocRef, {email: newEmail});
 
@@ -63,7 +63,7 @@ const EmailSetting = () => {
         Alert.alert('An error occurred. Please try again later.');
       }
     } finally {
-      setIsLoading(false); // İşlem tamamlandığında loading durumunu false yap
+      setIsLoading(false);
     }
   };
 

@@ -12,7 +12,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {firestore} from '../../../../db/Firebase/config';
 import useStayLoggedin from '../../../../utils/useStayLoggedin';
 import styles from './blocked-list.style';
-import {doc, getDoc, deleteDoc, setDoc} from 'firebase/firestore';
+import {doc, getDoc, deleteDoc, setDoc, updateDoc} from 'firebase/firestore';
 
 interface ListItem {
   key: string;
@@ -77,7 +77,7 @@ const BlockedList: React.FC = () => {
         const updatedUsers = userData.users.filter(
           (user: any) => user.userId !== userId,
         );
-        await setDoc(userRef, {users: updatedUsers});
+        await updateDoc(userRef, {users: updatedUsers});
         const updatedList = listData.filter(item => item.userId !== userId);
         setListData(updatedList);
         closeRow(rowMap, rowKey);

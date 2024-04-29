@@ -1,10 +1,10 @@
-import {View, Text, Switch, ActivityIndicator} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import useStayLoggedin from '../../../../utils/useStayLoggedin';
+import {View, Text, Switch, ActivityIndicator} from 'react-native';
 import styles from './notification-setting.style';
 import {doc, getDoc, updateDoc} from 'firebase/firestore';
 import {firestore} from '../../../../db/Firebase/config';
 import {NotificationType} from './notification-setting.type';
+import useStayLoggedin from '../../../../utils/useStayLoggedin';
 
 const NotificationSetting = () => {
   const id = useStayLoggedin();
@@ -20,10 +20,12 @@ const NotificationSetting = () => {
       }
 
       try {
-        const userDocRef = doc(firestore, 'settings', id);
+        const userDocRef = doc(firestore, 'users', id);
         const docSnapshot = await getDoc(userDocRef);
         if (docSnapshot.exists()) {
-          setNotification(docSnapshot.data().notification as NotificationType);
+          setNotification(
+            docSnapshot.data().settings.notifications as NotificationType,
+          );
         } else {
           console.warn('Notification settings not found for user:', id);
         }
@@ -50,8 +52,8 @@ const NotificationSetting = () => {
     setNotification(updatedNotification);
 
     try {
-      await updateDoc(doc(firestore, 'settings', id), {
-        [`notification.${key}`]: updatedNotification[key],
+      await updateDoc(doc(firestore, 'users', id), {
+        'settings.notifications': updatedNotification,
       });
     } catch (error) {
       console.error(`Error updating ${key}:`, error);

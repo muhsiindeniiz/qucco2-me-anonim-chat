@@ -24,7 +24,7 @@ import {getSettings} from '../../query/setting';
 import logo from '../../../../assets/image/logo.png';
 import {deleteUser, getAuth, signOut} from 'firebase/auth';
 import {storage} from '../../../../constants/app';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {setLoggedIn} from '../../../../redux/AuthSlice/authSlice';
 
 const SettingPage = () => {
@@ -51,20 +51,23 @@ const SettingPage = () => {
       return;
     }
 
+    const updatedValue = !settings[key];
+
     setSettings({
       ...settings,
-      [key]: !settings?.[key],
+      [key]: updatedValue,
     });
 
-    const updatedSettings = {
-      ...settings,
-      [key]: !settings?.[key],
-    };
-
     try {
-      await updateDoc(doc(firestore, 'settings', id), updatedSettings);
+      const userDocRef = doc(firestore, 'users', id);
+      await updateDoc(userDocRef, {
+        settings: {
+          ...settings,
+          [key]: updatedValue,
+        },
+      });
     } catch (error) {
-      console.error(`Error updating ${key}:`, error);
+      console.error(`${key} güncellenirken bir hata oluştu:`, error);
     }
   };
 
@@ -91,7 +94,7 @@ const SettingPage = () => {
       });
       handleLogout();
     } catch (error) {
-      console.error('Error deactivating account:', error);
+      console.error('Hesap deaktive edilirken bir hata oluştu:', error);
     }
   };
 
@@ -99,10 +102,9 @@ const SettingPage = () => {
     try {
       await deleteUser(auth.currentUser);
       await deleteDoc(doc(firestore, 'users', id));
-      await deleteDoc(doc(firestore, 'settings', id));
       handleLogout();
     } catch (error) {
-      console.error('Error deleting account:', error);
+      console.error('Hesap silinirken bir hata oluştu:', error);
     }
   };
 
