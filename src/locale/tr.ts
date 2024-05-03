@@ -58,4 +58,7 @@ export const tr: Strings = {
   emptyField: 'Lütfen tüm alanları doldurun',
   emptyFieldDesc: 'Devam etmek için lütfen tüm alanları doldurun',
   search: 'Ara',
+  filter: 'Filtrele',
+  chats: 'Sohbetler',
+  noChats: 'Henüz sohbet yok. Lütfen yeni arkadaşlar bulmak için karıştırın!',
 };

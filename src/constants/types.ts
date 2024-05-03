@@ -58,3 +58,20 @@ export type Blocked = {
   username: string;
   userId: string;
 };
+export type Message = {
+  id: string;
+  senderId: string;
+  receiverId: string;
+  text: string;
+  createdAt: string;
+};
+export type GeneralType =
+  | UserType
+  | Strings
+  | FriendType
+  | PostType
+  | CommentType
+  | settings
+  | Notifications
+  | Blocked
+  | Message;

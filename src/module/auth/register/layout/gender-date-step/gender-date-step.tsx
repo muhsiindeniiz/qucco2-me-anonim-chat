@@ -8,23 +8,28 @@ import strings from '../../../../../locale/locale';
 import {ageErrorToast} from '../../../../../utils/toasts';
 
 type GenderDateBodyProps = {
-  handleSetDate: (date: Date) => void;
+  handleSetDate: (date: string) => void;
   handleSetGender: (gender: string) => void;
+};
+
+const formatDateString = (date: Date): string => {
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const year = date.getFullYear().toString();
+  return `${day}/${month}/${year}`;
 };
 
 const GenderDateBody = ({
   handleSetDate,
   handleSetGender,
 }: GenderDateBodyProps) => {
-  const [date, setDate] = useState<Date>(
-    new Date() || storage.getString('date'),
-  );
+  const [date, setDate] = useState(new Date() || storage.getString('date'));
   const [show, setShow] = useState(false);
   const [open, setOpen] = useState(false);
   const [gender, setGender] = useState(storage.getString('gender') || '');
   const [animation] = useState(new Animated.Value(0));
+
   const _handleSetDate = (date: Date) => {
-    // Kullanıcının yaşını hesapla
     const today = new Date();
     const birthDate = new Date(date);
     let age = today.getFullYear() - birthDate.getFullYear();
@@ -36,20 +41,21 @@ const GenderDateBody = ({
       age--;
     }
 
-    // 18 yaşından küçükse uyarı ver
     if (age < 18) {
       return ageErrorToast();
     }
 
     setDate(date);
-    handleSetDate(date);
-    storage.set('date', date.toString());
+    handleSetDate(formatDateString(date));
+    storage.set('date', formatDateString(date));
   };
+
   const _handleSetGender = (gender: string) => {
     setGender(gender);
     handleSetGender(gender);
     storage.set('gender', gender);
   };
+
   useEffect(() => {
     if (open) {
       Animated.timing(animation, {
@@ -91,27 +97,9 @@ const GenderDateBody = ({
           onPress={() => {
             setShow(true);
           }}>
-          <Text style={styles.datePicker}>
-            {date.getDate() === new Date().getDate()
-              ? strings.dateofbirth
-              : date.getDate() +
-                '/' +
-                (date.getMonth() + 1) +
-                '/' +
-                date.getFullYear()}
-          </Text>
+          <Text style={styles.datePicker}>{formatDateString(date)}</Text>
         </TouchableOpacity>
         {show && (
-          // <RNDateTimePicker
-          //   value={date}
-          //   mode={'date'}
-          //   display="default"
-          //   onChange={(event, selectedDate) => {
-          //     const currentDate = selectedDate || date;
-          //     setShow(false);
-          //     _handleSetDate(currentDate);
-          //   }}
-          // />
           <DateTimePickerModal
             isVisible={show}
             mode="date"

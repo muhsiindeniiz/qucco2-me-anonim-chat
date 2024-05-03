@@ -4,24 +4,30 @@ import TabNavigator from './tab/TabNavigator';
 import {NavigationContainer} from '@react-navigation/native';
 import {storage} from '../constants/app';
 import SplashScreen from '../components/splash-screen';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../redux/store';
+import {useUserData} from '../utils/useUserData';
+import {setUserData} from '../redux/ShuffleSlice/shuffleSlice';
 
 const AppNavigator = () => {
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
   const isloggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   const userId = storage.getString('userId');
+  const dispatch = useDispatch();
+  const userData = useUserData();
   useEffect(() => {
     const checkAuthentication = async () => {
       if (isloggedIn === true || userId) {
-        const userId = await storage.getString('userId');
         if (userId) {
           setAuthenticated(true);
+          dispatch(setUserData(userData));
         }
-        setTimeout(() => {
-          setLoading(false);
-        }, 1000);
+        if (userData && userData.length > 0) {
+          setTimeout(() => {
+            setLoading(false);
+          }, 300);
+        }
       } else {
         setTimeout(() => {
           setLoading(false);
@@ -29,7 +35,7 @@ const AppNavigator = () => {
       }
     };
     checkAuthentication();
-  }, [isloggedIn, userId]);
+  }, [isloggedIn, userId, dispatch, userData]);
 
   if (loading) {
     return <SplashScreen />;

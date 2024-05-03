@@ -8,24 +8,11 @@ export const getuserdata = async () => {
       query(collection(db, 'users'), where('username', '!=', '')),
     );
 
-    const promises = usersQuerySnapshot.docs.map(async doc => {
-      const userData = doc.data() as UserType;
-      const settingsQuerySnapshot = await getDocs(
-        query(
-          collection(db, 'settings'),
-          where('userId', '==', doc.id),
-          where('showShuffle', '==', true),
-        ),
-      );
-      if (settingsQuerySnapshot.size > 0) {
-        return userData;
-      }
-      return null;
-    });
+    const filteredUsers = usersQuerySnapshot.docs
+      .map(doc => doc.data() as UserType)
+      .filter(userData => userData.settings?.showShuffle);
 
-    const result = await Promise.all(promises);
-    const users = result.filter(user => user !== null) as UserType[];
-    return users;
+    return filteredUsers;
   } catch (error) {
     console.error('Error getting users:', error);
     return [];

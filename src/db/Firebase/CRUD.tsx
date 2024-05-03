@@ -14,7 +14,13 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
-import {getStorage, ref, uploadString, getDownloadURL} from 'firebase/storage';
+import {
+  getStorage,
+  ref,
+  uploadString,
+  getDownloadURL,
+  uploadBytes,
+} from 'firebase/storage';
 
 export const db = getFirestore();
 const storage = getStorage();
@@ -31,6 +37,16 @@ export const checkEmailExists = async (email: string) => {
   return !emailQuerySnapshot.empty;
 };
 
+// Fotoğrafı storage'a yükle ve URL'sini al
+const uploadPhoto = async (userId: string, photo: string): Promise<string> => {
+  const response = await fetch(photo);
+  const blob = await response.blob();
+  const photoRef = ref(storage, `users/${userId}/profilePicture.jpg`);
+
+  await uploadBytes(photoRef, blob);
+  return getDownloadURL(photoRef);
+};
+
 export const register = async (props: UserType): Promise<string | null> => {
   const {email, password, username, about, photo, birthdate} = props;
   try {
@@ -40,22 +56,21 @@ export const register = async (props: UserType): Promise<string | null> => {
       email,
       password,
     );
-    const id = userCredential.user.uid;
+    const userId = userCredential.user.uid;
 
-    // Fotoğrafı storage'a yükle
-    const photoRef = ref(storage, `users/${id}/profilePicture.jpg`);
-    await uploadString(photoRef, photo);
-
-    // Fotoğraf URI'sini al
-    const photoURL = await getDownloadURL(photoRef);
+    // Fotoğrafı storage'a yükle ve URL'sini al
+    const photoURL = await uploadPhoto(userId, photo);
 
     // Firestore'da kullanıcı bilgilerini kaydet
-    await setDoc(doc(db, 'users', id), {
+    await setDoc(doc(db, 'users', userId), {
+      id: userId,
       email,
       username,
       about,
       photo: photoURL,
-      createdAt: new Date().toISOString(),
+      createdAt: `${new Date().getDate()}/${
+        new Date().getMonth() + 1
+      }/${new Date().getFullYear()}`,
       birthdate,
       biography: '',
       followers: [],
@@ -85,7 +100,7 @@ export const register = async (props: UserType): Promise<string | null> => {
     });
 
     console.log('Kullanıcı başarıyla kaydedildi.');
-    return id; // Kullanıcı id'sini döndür
+    return userId; // Kullanıcı id'sini döndür
   } catch (error) {
     console.error('Kullanıcı kaydedilirken bir hata oluştu:', error);
     return null; // Hata durumunda null döndür

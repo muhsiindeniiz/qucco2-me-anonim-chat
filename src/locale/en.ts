@@ -56,4 +56,7 @@ export const en: Strings = {
   emptyField: 'Please fill in all fields',
   emptyFieldDesc: 'Please fill in all fields to continue',
   search: 'Search',
+  filter: 'Filter',
+  chats: 'Chats',
+  noChats: 'No chats yet. Go Shuffle to find new friends!',
 };

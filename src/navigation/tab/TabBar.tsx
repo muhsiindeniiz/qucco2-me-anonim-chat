@@ -1,10 +1,14 @@
 import React from 'react';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../redux/store';
 
 const TabBar = ({state, navigation}: any) => {
   const {routes} = state;
-
+  const isVisible = useSelector(
+    (state: RootState) => state.tabbarVisible.isVisible,
+  );
   const renderIcon = (routeName: string, iconName: string, size: number) => {
     const isActive = state.routes[state.index].name === routeName;
     const color = isActive ? '#FFFFFF' : '#808080';
@@ -25,7 +29,13 @@ const TabBar = ({state, navigation}: any) => {
   };
 
   return (
-    <View style={styles.tabBar}>
+    <View
+      style={[
+        styles.tabBar,
+        {
+          display: isVisible ? 'none' : 'flex',
+        },
+      ]}>
       {routes.map((route: any) => {
         let iconName = '';
         let size = 28;

@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {size, width} from 'react-native-responsive-sizes';
+import {height, size, width} from 'react-native-responsive-sizes';
 
 export default StyleSheet.create({
   container: {
@@ -28,6 +28,7 @@ export default StyleSheet.create({
     width: width(98),
     height: width(8),
     fontSize: size(12),
+    padding: size(10),
     paddingLeft: size(40),
     alignItems: 'center',
     justifyContent: 'center',
@@ -37,7 +38,45 @@ export default StyleSheet.create({
   },
   searcIcon: {
     position: 'absolute',
-    left: size(10),
+    left: size(15),
     zIndex: 1,
+  },
+  filterContainer: {
+    width: width(100),
+    height: width(11),
+    top: size(55),
+    borderBottomWidth: size(0.3),
+    borderBottomColor: 'grey',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+  },
+  filterText: {
+    color: 'white',
+    fontSize: size(13),
+    textAlign: 'center',
+    position: 'absolute',
+    zIndex: 1,
+    left: size(45),
+  },
+  body: {
+    width: width(100),
+    height: height(69),
+    top: size(45),
+  },
+  header: {
+    width: width(100),
+    height: height(3),
+    flexDirection: 'row',
+    zIndex: 1,
+  },
+  headerText: {
+    color: 'grey',
+    fontSize: size(10),
+    fontWeight: 'bold',
+    textAlign: 'center',
+    position: 'absolute',
+    zIndex: 1,
+    left: size(15),
   },
 });

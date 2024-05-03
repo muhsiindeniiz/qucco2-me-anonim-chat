@@ -11,11 +11,13 @@ import VipStack from '../stack/vıp-stack/vıp-stack';
 
 const TabNavigator = () => {
   const tab = createBottomTabNavigator();
+
   return (
     <tab.Navigator
       screenOptions={{
         headerShown: false,
       }}
+      // eslint-disable-next-line react/no-unstable-nested-components
       tabBar={props => <TabBar {...props} />}>
       <tab.Screen name="StoriesStack" component={StoriesStack} />
       <tab.Screen name="ChatStack" component={ChatStack} />
