@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ImageBackground,
   Modal,
@@ -10,8 +10,28 @@ import {
 import {ProfileDetailModalProps} from './profile-detail-modal.type';
 import style from './profile-detail-modal.style';
 import FanIcons from 'react-native-vector-icons/FontAwesome';
+import useStayLoggedin from '../../../../utils/useStayLoggedin';
+import {UserType} from '../../../../constants/types';
+import {getUser} from '../../query/setting';
+moment.locale();
+import moment from 'moment';
 
 const ProfileDetailModal = ({onClose, isOpen}: ProfileDetailModalProps) => {
+  const id = useStayLoggedin();
+  const [user, setUser] = useState<UserType | null>(null);
+
+  useEffect(() => {
+    if (id) {
+      getUser(id)
+        .then(data => {
+          setUser(data as UserType);
+        })
+        .catch(error => {
+          console.error('Error user state:', error);
+        });
+    }
+  }, [id]);
+
   return (
     <Modal
       animationType="slide"
@@ -20,26 +40,24 @@ const ProfileDetailModal = ({onClose, isOpen}: ProfileDetailModalProps) => {
       presentationStyle="pageSheet"
       onRequestClose={() => onClose(false)}>
       <SafeAreaView style={style.container}>
-        <ImageBackground
-          style={style.profile}
-          src="https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D">
+        <ImageBackground style={style.profile} src={user?.photo}>
           <TouchableOpacity
             onPress={() => onClose(false)}
             style={style.closeAction}>
             <FanIcons name="close" size={24} style={style.close} />
           </TouchableOpacity>
           <View>
-            <Text style={style.username}>muhsindeniz</Text>
+            <Text style={style.username}>{user?.username}</Text>
             <Text style={style.active}>Active a minute ago</Text>
           </View>
         </ImageBackground>
 
         <View style={style.bioContainer}>
-          <Text style={style.biography}>
-            Yazılım Mühendisi Kahve Hastası 🚀 ☕️
-          </Text>
+          <Text style={style.biography}>{user?.about}</Text>
         </View>
-        <Text style={style.createdAt}>Registered: 11.04.2024</Text>
+        <Text style={style.createdAt}>
+          Registered: {moment(user?.createdAt).format('DD.MM.YYYY')}
+        </Text>
       </SafeAreaView>
     </Modal>
   );

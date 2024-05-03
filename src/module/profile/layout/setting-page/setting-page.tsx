@@ -88,6 +88,9 @@ const SettingPage = () => {
   };
 
   const handleDeactivateAccount = async () => {
+    if (!id) {
+      return;
+    }
     try {
       await updateDoc(doc(firestore, 'users', id), {
         status: false,
@@ -99,6 +102,9 @@ const SettingPage = () => {
   };
 
   const handleDeleteAccount = async () => {
+    if (!auth.currentUser || !id) {
+      return;
+    }
     try {
       await deleteUser(auth.currentUser);
       await deleteDoc(doc(firestore, 'users', id));

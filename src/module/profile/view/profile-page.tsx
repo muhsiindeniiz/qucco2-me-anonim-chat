@@ -7,17 +7,35 @@ import {
   Share,
   ScrollView,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import style from './profile-page.style';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import FanIcons from 'react-native-vector-icons/FontAwesome6';
 import GetPromote from '../layout/get-promote';
 import ProfileDetailModal from '../components/profile-detail-modal';
 import {useNavigation} from '@react-navigation/native';
+import useStayLoggedin from '../../../utils/useStayLoggedin';
+import {getUser} from '../query/setting';
+import {UserType} from '../../../constants/types';
+import EditProfileModal from '../components/edit-profile-modal';
 
 const Profile = () => {
+  const id = useStayLoggedin();
   const [profileDetailModalVisible, setProfileDetailModalVisible] =
     useState(false);
+  const [editProfileModalVisible, setEditProfileModalVisible] = useState(false);
+  const [user, setUser] = useState<UserType | null>(null);
+  useEffect(() => {
+    if (id) {
+      getUser(id)
+        .then(data => {
+          setUser(data as UserType);
+        })
+        .catch(error => {
+          console.error('Error user state:', error);
+        });
+    }
+  }, [id]);
 
   const onShare = async () => {
     try {
@@ -47,6 +65,10 @@ const Profile = () => {
         isOpen={profileDetailModalVisible}
         onClose={setProfileDetailModalVisible}
       />
+      <EditProfileModal
+        isOpen={editProfileModalVisible}
+        onClose={setEditProfileModalVisible}
+      />
       <SafeAreaView style={style.container}>
         <TouchableOpacity
           onPress={() => {
@@ -66,7 +88,7 @@ const Profile = () => {
                 src="https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D"
               />
             </TouchableOpacity>
-            <Text style={style.username}>muhsindeniz</Text>
+            <Text style={style.username}>{user?.username}</Text>
             <TouchableOpacity
               onPress={() => {
                 setProfileDetailModalVisible(true);
@@ -97,7 +119,9 @@ const Profile = () => {
               <View style={[style.icon, style.followers]}>
                 <FanIcons name="user-plus" size={20} style={style.actionIcon} />
               </View>
-              <Text style={style.actionValue}>0</Text>
+              <Text style={style.actionValue}>
+                {user?.followers.length ?? 0}
+              </Text>
               <Text style={style.actionTitle}>followers</Text>
             </View>
           </View>
@@ -114,7 +138,7 @@ const Profile = () => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                console.log('Edit Profile button pressed');
+                setEditProfileModalVisible(true);
               }}
               style={style.editProfile}>
               <FanIcons

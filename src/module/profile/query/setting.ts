@@ -16,17 +16,17 @@ export const getSettings = async (userId: string) => {
     }
 };
 
-export const getNotification = async (userId: string) => {
+export const getUser = async (userId: string) => {
     try {
         const userDocRef = doc(firestore, 'users', userId);
         const docSnapshot = await getDoc(userDocRef);
         if (docSnapshot.exists()) {
-            return docSnapshot.data().settings.notifications;
+            return docSnapshot.data();
         } else {
             return null;
         }
     } catch (error) {
-        console.error('Bildirim alınırken bir hata oluştu:', error);
+        console.error('Ayarlar alınırken bir hata oluştu:', error);
         return null;
     }
 };

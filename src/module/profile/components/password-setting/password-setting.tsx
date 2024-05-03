@@ -40,7 +40,7 @@ const PasswordSetting = () => {
     try {
       const user = auth.currentUser;
 
-      if (!user) {
+      if (!user || !user.email) {
         Alert.alert('You are not logged in. Please log in to change password.');
         return;
       }
