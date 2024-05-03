@@ -21,12 +21,14 @@ import moment from 'moment';
 import {Auth, updateCurrentUser} from 'firebase/auth';
 import {doc, updateDoc} from 'firebase/firestore';
 import {firestore} from '../../../../db/Firebase/config';
+import {useNavigation} from '@react-navigation/native';
+import {ACCOUNT_SETTING_TYPE} from '../change-account-info';
 
 const EditProfileModal = ({onClose, isOpen}: EditProfileModalProps) => {
   const id = useStayLoggedin();
   const [user, setUser] = useState<UserType | null>(null);
   const [isShowBirthDate, setIsShowBirthDate] = useState(false);
-  const [birthDate, setBirthDate] = useState<Date | null>(null);
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -45,14 +47,6 @@ const EditProfileModal = ({onClose, isOpen}: EditProfileModalProps) => {
 
   const handleBirthdateUpdate = async (newBirthdate: Date) => {
     try {
-      const eighteenYearsAgo = new Date();
-      eighteenYearsAgo.setFullYear(eighteenYearsAgo.getFullYear() - 18);
-
-      if (newBirthdate > eighteenYearsAgo) {
-        Alert.alert('Error', 'You must be at least 18 years old.');
-        return;
-      }
-
       if (!id) {
         return;
       }
@@ -60,7 +54,6 @@ const EditProfileModal = ({onClose, isOpen}: EditProfileModalProps) => {
       await updateDoc(doc(firestore, 'users', id), {
         birthdate: isoString,
       });
-      console.log('User birthdate updated successfully:', isoString);
       setUser(prevUser => {
         if (!prevUser) {
           return null;
@@ -171,7 +164,7 @@ const EditProfileModal = ({onClose, isOpen}: EditProfileModalProps) => {
           <Text style={style.headerTitle}>BIO</Text>
         </View>
         <View style={style.bioContainer}>
-          <Text style={style.bioContent}>
+          <Text style={style.bioContent} onPress={() => console.log('BIO')}>
             Merhaba ben bir yazılımsal düşünen bir similasyonum. sdfd ☀️ Merhaba
             ben bir yazılımsal düşünen bir neden olmasın
           </Text>
@@ -208,7 +201,6 @@ const EditProfileModal = ({onClose, isOpen}: EditProfileModalProps) => {
             onConfirm={date => {
               setIsShowBirthDate(false);
               handleBirthdateUpdate(date);
-              setBirthDate(date);
             }}
             onCancel={() => {
               setIsShowBirthDate(false);
