@@ -17,6 +17,7 @@ import {doc, updateDoc} from 'firebase/firestore';
 import {firestore} from '../../../../db/Firebase/config';
 import {useNavigation} from '@react-navigation/native';
 import useStayLoggedin from '../../../../utils/useStayLoggedin';
+import {AuthStackNavProp} from '../../../../navigation/stack/auth-stack/auth-stack-types';
 
 const UsernameSetting = () => {
   const id = useStayLoggedin();
@@ -25,7 +26,7 @@ const UsernameSetting = () => {
   const [currentPassword, setCurrentPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const auth = getAuth();
-  const navigation = useNavigation();
+  const navigation = useNavigation<AuthStackNavProp>();
 
   const changeUsername = async () => {
     if (!newUsername || !currentPassword) {

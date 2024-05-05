@@ -1,4 +1,4 @@
-import {StackNavigationProp, StackScreenProps} from '@react-navigation/stack';
+import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 
 export type AuthStackParamList = {
   OnboardingScreen: undefined;

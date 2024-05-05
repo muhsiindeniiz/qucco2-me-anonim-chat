@@ -3,10 +3,11 @@ import React from 'react';
 import style from './get-promote.style';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import {size} from 'react-native-responsive-sizes';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import {AuthStackNavProp} from '../../../../navigation/stack/auth-stack/auth-stack-types';
 
 const GetPromote = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<AuthStackNavProp>();
 
   return (
     <View style={style.container}>

@@ -1,20 +1,21 @@
 import {View, Text, SafeAreaView, TouchableOpacity} from 'react-native';
 import React from 'react';
 import IonIcons from 'react-native-vector-icons/Ionicons';
-import styles from './change-account-info.style';
+import styles from './setting-detail-info.style';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {
   ACCOUNT_SETTING_TYPE,
   RootStackParamList,
-} from './change-account-info.type';
+} from './setting-detail-info.type';
 import NotificationSetting from '../notification-setting';
 import UsernameSetting from '../username-setting';
 import PasswordSetting from '../password-setting';
 import EmailSetting from '../email-setting';
 import BlockedList from '../blocked-list';
+import {AuthStackNavProp} from '../../../../navigation/stack/auth-stack/auth-stack-types';
 
 const ChangeAccountInfo = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<AuthStackNavProp>();
   const route = useRoute<RootStackParamList>();
   const {title, type} = route.params;
 

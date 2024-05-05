@@ -3,8 +3,9 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Profile from '../../../module/profile/view/profile-page';
 import {ProfileStackParamList} from './profile-stack-types';
 import SettingPage from '../../../module/profile/layout/setting-page/setting-page';
-import ChangeAccountInfo from '../../../module/profile/components/change-account-info/change-account-info';
+import ChangeAccountInfo from '../../../module/profile/components/setting-detail-info/setting-detail-info';
 import UsernameSetting from '../../../module/profile/components/username-setting/username-setting';
+import BioDetailModal from '../../../module/profile/components/bio-detail-modal/bio-detail-modal';
 
 const ProfileStack = () => {
   const stack = createStackNavigator<ProfileStackParamList>();

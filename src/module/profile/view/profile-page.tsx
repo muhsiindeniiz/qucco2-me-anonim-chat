@@ -18,24 +18,32 @@ import useStayLoggedin from '../../../utils/useStayLoggedin';
 import {getUser} from '../query/setting';
 import {UserType} from '../../../constants/types';
 import EditProfileModal from '../components/edit-profile-modal';
+import {AuthStackNavProp} from '../../../navigation/stack/auth-stack/auth-stack-types';
+import {useDispatch} from 'react-redux';
+import {setUserData} from '../../../redux/ShuffleSlice/shuffleSlice';
+import {setUserInfo} from '../../../redux/AuthSlice/authSlice';
 
 const Profile = () => {
   const id = useStayLoggedin();
+  const dispatch = useDispatch();
   const [profileDetailModalVisible, setProfileDetailModalVisible] =
     useState(false);
   const [editProfileModalVisible, setEditProfileModalVisible] = useState(false);
   const [user, setUser] = useState<UserType | null>(null);
+  const navigation = useNavigation<AuthStackNavProp>();
+
   useEffect(() => {
     if (id) {
       getUser(id)
         .then(data => {
           setUser(data as UserType);
+          dispatch(setUserInfo(data as UserType));
         })
         .catch(error => {
           console.error('Error user state:', error);
         });
     }
-  }, [id]);
+  }, [dispatch, id]);
 
   const onShare = async () => {
     try {
@@ -56,8 +64,6 @@ const Profile = () => {
       }
     } catch (error) {}
   };
-
-  const navigation = useNavigation();
 
   return (
     <>

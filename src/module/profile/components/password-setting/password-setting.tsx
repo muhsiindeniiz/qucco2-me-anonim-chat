@@ -15,6 +15,7 @@ import {
   updatePassword,
 } from 'firebase/auth';
 import {useNavigation} from '@react-navigation/native';
+import {AuthStackNavProp} from '../../../../navigation/stack/auth-stack/auth-stack-types';
 
 const PasswordSetting = () => {
   const [newPassword, setNewPassword] = useState('');
@@ -22,7 +23,7 @@ const PasswordSetting = () => {
   const [currentPassword, setCurrentPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const auth = getAuth();
-  const navigation = useNavigation();
+  const navigation = useNavigation<AuthStackNavProp>();
 
   const changePassword = async () => {
     if (!newPassword || !confirmPassword || !currentPassword) {

@@ -19,16 +19,17 @@ import {firestore} from '../../../../db/Firebase/config';
 import useStayLoggedin from '../../../../utils/useStayLoggedin';
 import {deleteDoc, doc, getDoc, updateDoc} from 'firebase/firestore';
 import {SettingType} from './setting-page.type';
-import {ACCOUNT_SETTING_TYPE} from '../../components/change-account-info';
+import {ACCOUNT_SETTING_TYPE} from '../../components/setting-detail-info';
 import {getSettings} from '../../query/setting';
 import logo from '../../../../assets/image/logo.png';
 import {deleteUser, getAuth, signOut} from 'firebase/auth';
 import {storage} from '../../../../constants/app';
 import {useDispatch} from 'react-redux';
 import {setLoggedIn} from '../../../../redux/AuthSlice/authSlice';
+import {AuthStackNavProp} from '../../../../navigation/stack/auth-stack/auth-stack-types';
 
 const SettingPage = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<AuthStackNavProp>();
   const id = useStayLoggedin();
   const [settings, setSettings] = useState<SettingType | null>(null);
   const auth = getAuth();

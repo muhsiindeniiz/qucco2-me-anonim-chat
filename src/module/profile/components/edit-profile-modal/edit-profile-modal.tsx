@@ -6,8 +6,10 @@ import {
   TouchableHighlight,
   Alert,
   Platform,
+  Touchable,
+  TouchableOpacity,
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import useStayLoggedin from '../../../../utils/useStayLoggedin';
 import {UserType} from '../../../../constants/types';
 import {getUser} from '../../query/setting';
@@ -18,17 +20,18 @@ import IonIcons from 'react-native-vector-icons/Ionicons';
 import FanIcons from 'react-native-vector-icons/FontAwesome6';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
-import {Auth, updateCurrentUser} from 'firebase/auth';
 import {doc, updateDoc} from 'firebase/firestore';
 import {firestore} from '../../../../db/Firebase/config';
 import {useNavigation} from '@react-navigation/native';
-import {ACCOUNT_SETTING_TYPE} from '../change-account-info';
+import BioDetailModal from '../bio-detail-modal';
 
 const EditProfileModal = ({onClose, isOpen}: EditProfileModalProps) => {
   const id = useStayLoggedin();
   const [user, setUser] = useState<UserType | null>(null);
   const [isShowBirthDate, setIsShowBirthDate] = useState(false);
   const navigation = useNavigation();
+
+  const [editBioModalVisible, setEditBioModalVisible] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -87,6 +90,12 @@ const EditProfileModal = ({onClose, isOpen}: EditProfileModalProps) => {
       visible={isOpen}
       presentationStyle="pageSheet"
       onRequestClose={() => onClose(false)}>
+      <BioDetailModal
+        biography={user?.about ?? ''}
+        isOpen={editBioModalVisible}
+        onClose={setEditBioModalVisible}
+      />
+
       <SafeAreaView style={style.container}>
         <View style={style.header}>
           <Text style={style.title}>Edit</Text>
@@ -95,7 +104,7 @@ const EditProfileModal = ({onClose, isOpen}: EditProfileModalProps) => {
           </Text>
         </View>
         <View style={style.gallery}>
-          {Array.from({length: 5}).map((_, i) => (
+          {Array.from({length: 1}).map((_, i) => (
             <View style={[style.photo, style.addPhoto]} key={i}>
               <Text>Add Photo</Text>
             </View>
@@ -164,9 +173,12 @@ const EditProfileModal = ({onClose, isOpen}: EditProfileModalProps) => {
           <Text style={style.headerTitle}>BIO</Text>
         </View>
         <View style={style.bioContainer}>
-          <Text style={style.bioContent} onPress={() => console.log('BIO')}>
-            Merhaba ben bir yazılımsal düşünen bir similasyonum. sdfd ☀️ Merhaba
-            ben bir yazılımsal düşünen bir neden olmasın
+          <Text
+            style={style.bioContent}
+            onPress={() => {
+              setEditBioModalVisible(true);
+            }}>
+            {user?.about}
           </Text>
           <Text style={style.bioLimit}>56/300</Text>
         </View>
@@ -174,12 +186,9 @@ const EditProfileModal = ({onClose, isOpen}: EditProfileModalProps) => {
         <View style={style.section}>
           <Text style={style.headerTitle}>TAGS</Text>
         </View>
-        <TouchableHighlight
-          underlayColor="#091523"
-          onPress={() => console.log('Tag')}
-          style={style.tagsContainer}>
+        <Text onPress={() => console.log('Tag')} style={style.tagsContainer}>
           <Text style={style.tagText}>Add Tag</Text>
-        </TouchableHighlight>
+        </Text>
 
         <View style={style.section}>
           <Text style={style.headerTitle}>BIRTH DATE</Text>

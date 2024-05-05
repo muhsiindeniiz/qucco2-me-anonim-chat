@@ -17,6 +17,7 @@ import {
 import {doc, getDoc, updateDoc} from 'firebase/firestore';
 import {firestore} from '../../../../db/Firebase/config';
 import {useNavigation} from '@react-navigation/native';
+import {AuthStackNavProp} from '../../../../navigation/stack/auth-stack/auth-stack-types';
 
 const EmailSetting = () => {
   const [newEmail, setNewEmail] = useState('');
@@ -24,7 +25,7 @@ const EmailSetting = () => {
   const auth = getAuth();
   const user = auth.currentUser;
   const [isLoading, setIsLoading] = useState(false);
-  const navigation = useNavigation();
+  const navigation = useNavigation<AuthStackNavProp>();
   const changeEmail = async () => {
     if (!newEmail || !currentPassword) {
       Alert.alert('Please enter both New Email and Current Password');
