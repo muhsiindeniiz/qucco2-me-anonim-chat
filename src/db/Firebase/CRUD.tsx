@@ -14,13 +14,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
-import {
-  getStorage,
-  ref,
-  uploadString,
-  getDownloadURL,
-  uploadBytes,
-} from 'firebase/storage';
+import {getStorage, ref, getDownloadURL, uploadBytes} from 'firebase/storage';
 
 export const db = getFirestore();
 const storage = getStorage();
@@ -66,6 +60,7 @@ export const register = async (props: UserType): Promise<string | null> => {
       id: userId,
       email,
       username,
+      anonNickname: generateUniqueAnonymousName(),
       about,
       photo: photoURL,
       createdAt: `${new Date().getDate()}/${
@@ -141,6 +136,7 @@ export const login = async (
 
 import {sendPasswordResetEmail} from 'firebase/auth';
 import {UserType} from '../../constants/types';
+import generateUniqueAnonymousName from '../../utils/uniqueNameCreator';
 
 export const sendPasswordReset = async (email: string) => {
   try {

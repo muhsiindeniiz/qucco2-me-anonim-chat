@@ -7,7 +7,7 @@ import SplashScreen from '../components/splash-screen';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../redux/store';
 import {useUserData} from '../utils/useUserData';
-import {setUserData} from '../redux/ShuffleSlice/shuffleSlice';
+import {setCurrentUser, setUserData} from '../redux/ShuffleSlice/shuffleSlice';
 
 const AppNavigator = () => {
   const [loading, setLoading] = useState(true);
@@ -15,13 +15,16 @@ const AppNavigator = () => {
   const isloggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   const userId = storage.getString('userId');
   const dispatch = useDispatch();
-  const userData = useUserData();
+  const {userData, currentUser} = useUserData();
   useEffect(() => {
     const checkAuthentication = async () => {
       if (isloggedIn === true || userId) {
         if (userId) {
           setAuthenticated(true);
           dispatch(setUserData(userData));
+          if (currentUser) {
+            dispatch(setCurrentUser(currentUser));
+          }
         }
         if (userData && userData.length > 0) {
           setTimeout(() => {
@@ -35,7 +38,7 @@ const AppNavigator = () => {
       }
     };
     checkAuthentication();
-  }, [isloggedIn, userId, dispatch, userData]);
+  }, [isloggedIn, userId, dispatch, userData, currentUser]);
 
   if (loading) {
     return <SplashScreen />;

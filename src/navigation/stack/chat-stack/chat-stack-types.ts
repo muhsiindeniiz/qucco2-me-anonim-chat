@@ -3,7 +3,7 @@ import {GeneralType, UserType} from '../../../constants/types';
 
 export type ChatStackParamList = {
   Chat: undefined;
-  NewChat: {item: UserType};
+  NewChat: {item: UserType; currentUser: UserType};
 } & {
   [stackName: string]: {
     screen: string;

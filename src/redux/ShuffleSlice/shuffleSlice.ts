@@ -3,10 +3,12 @@ import {UserType} from '../../constants/types';
 
 interface ShuffleState {
   userData: UserType[];
+  currentUser: UserType | null;
 }
 
 const initialState: ShuffleState = {
   userData: [],
+  currentUser: null,
 };
 
 const authSlice = createSlice({
@@ -16,8 +18,11 @@ const authSlice = createSlice({
     setUserData: (state, action: PayloadAction<UserType[]>) => {
       state.userData = action.payload;
     },
+    setCurrentUser: (state, action: PayloadAction<UserType>) => {
+      state.currentUser = action.payload;
+    },
   },
 });
 
-export const {setUserData} = authSlice.actions;
+export const {setUserData, setCurrentUser} = authSlice.actions;
 export default authSlice.reducer;

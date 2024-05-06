@@ -25,6 +25,9 @@ import useVisible from '../../../utils/tabbarVisible';
 const Explore = () => {
   const [search, setSearch] = React.useState('');
   const navigation = useNavigation<ExploreStackNavProp>();
+  const currentUser = useSelector(
+    (state: RootState) => state.shuffle.currentUser,
+  );
   useVisible(navigation, false);
   const dispatch = useDispatch();
   const _handlePress = (item: UserType) => {
@@ -32,6 +35,7 @@ const Explore = () => {
       screen: 'NewChat',
       params: {
         item,
+        currentUser,
       },
     });
     dispatch(setVisible(true));

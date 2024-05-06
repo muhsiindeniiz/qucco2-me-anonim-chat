@@ -61,4 +61,6 @@ export const tr: Strings = {
   filter: 'Filtrele',
   chats: 'Sohbetler',
   noChats: 'Henüz sohbet yok. Lütfen yeni arkadaşlar bulmak için karıştırın!',
+  anonChat: 'olarak sohbettesin.',
+  typeMessage: 'Mesaj yaz...',
 };

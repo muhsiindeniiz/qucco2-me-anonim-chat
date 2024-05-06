@@ -59,4 +59,6 @@ export const en: Strings = {
   filter: 'Filter',
   chats: 'Chats',
   noChats: 'No chats yet. Go Shuffle to find new friends!',
+  anonChat: 'is your anonymous chat nick',
+  typeMessage: 'Type a message...',
 };

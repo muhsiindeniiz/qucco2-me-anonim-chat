@@ -1,10 +1,10 @@
 import {StyleSheet} from 'react-native';
-import {fontSize, height} from 'react-native-responsive-sizes';
+import {fontSize, height, size, width} from 'react-native-responsive-sizes';
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#06101b',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -41,8 +41,70 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 100,
+    width: width(40),
+    height: width(40),
+    borderRadius: size(210),
+  },
+  imageContainer: {
+    width: width(50),
+    height: width(50),
+
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+  chatHeader: {
+    position: 'absolute',
+    width: '100%',
+    height: height(6),
+
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: 0,
+  },
+  thumbNail: {
+    width: width(8.5),
+    height: width(8.5),
+    position: 'absolute',
+    left: width(12),
+    borderRadius: size(210),
+  },
+  thumbName: {
+    position: 'absolute',
+    left: width(23),
+    color: 'white',
+    fontSize: fontSize(11),
+  },
+  typeMessageContainer: {
+    width: '100%',
+    height: height(8),
+    position: 'absolute',
+    bottom: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  chatBallon: {
+    width: '60%',
+    height: height(3),
+    backgroundColor: '#f2f2f2',
+    position: 'absolute',
+    top: height(7),
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: size(5),
+    opacity: 0.5,
+  },
+  chatBallonText: {
+    color: 'black',
+    fontWeight: '500',
+    fontSize: fontSize(8),
+    textAlign: 'center',
+  },
+  messageInput: {
+    width: width(80),
+    height: height(5),
+    backgroundColor: 'white',
+    borderRadius: size(15),
+    marginLeft: size(5),
+    paddingLeft: size(35),
   },
 });
