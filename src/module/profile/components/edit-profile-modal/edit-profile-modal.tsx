@@ -3,10 +3,7 @@ import {
   Text,
   Modal,
   ScrollView,
-  TouchableHighlight,
-  Alert,
   Platform,
-  Touchable,
   TouchableOpacity,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
@@ -22,23 +19,26 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 import {doc, updateDoc} from 'firebase/firestore';
 import {firestore} from '../../../../db/Firebase/config';
-import {useNavigation} from '@react-navigation/native';
 import BioDetailModal from '../bio-detail-modal';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../../redux/store';
+import {setUserInfo} from '../../../../redux/AuthSlice/authSlice';
+import EditTagsModal from '../edit-tags-modal';
 
 const EditProfileModal = ({onClose, isOpen}: EditProfileModalProps) => {
   const id = useStayLoggedin();
-  const [user, setUser] = useState<UserType | null>(null);
+  const dispatch = useDispatch();
   const [isShowBirthDate, setIsShowBirthDate] = useState(false);
-  const navigation = useNavigation();
-
+  const user = useSelector((state: RootState) => state.auth.userInfo);
   const [editBioModalVisible, setEditBioModalVisible] = useState(false);
+  const [editTagsModalVisible, setEditTagsModalVisible] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
       if (id) {
         try {
           const userData = await getUser(id);
-          setUser(userData as UserType);
+          dispatch(setUserInfo(userData as UserType));
         } catch (error) {
           console.error('Error fetching user data:', error);
         }
@@ -46,7 +46,7 @@ const EditProfileModal = ({onClose, isOpen}: EditProfileModalProps) => {
     };
 
     fetchUser();
-  }, [id]);
+  }, [dispatch, id]);
 
   const handleBirthdateUpdate = async (newBirthdate: Date) => {
     try {
@@ -57,15 +57,17 @@ const EditProfileModal = ({onClose, isOpen}: EditProfileModalProps) => {
       await updateDoc(doc(firestore, 'users', id), {
         birthdate: isoString,
       });
-      setUser(prevUser => {
-        if (!prevUser) {
-          return null;
-        }
-        return {
-          ...prevUser,
-          birthdate: newBirthdate,
-        };
-      });
+      dispatch(
+        setUserInfo((prevUser: UserType) => {
+          if (!prevUser) {
+            return null;
+          }
+          return {
+            ...prevUser,
+            birthdate: newBirthdate,
+          };
+        }),
+      );
     } catch (error) {
       console.error('Error updating user birthdate:', error);
     }
@@ -91,9 +93,14 @@ const EditProfileModal = ({onClose, isOpen}: EditProfileModalProps) => {
       presentationStyle="pageSheet"
       onRequestClose={() => onClose(false)}>
       <BioDetailModal
-        biography={user?.about ?? ''}
         isOpen={editBioModalVisible}
         onClose={setEditBioModalVisible}
+        biography={user?.about ?? ''}
+      />
+      <EditTagsModal
+        isOpen={editTagsModalVisible}
+        onClose={setEditTagsModalVisible}
+        tags={user?.tags ?? []}
       />
 
       <SafeAreaView style={style.container}>
@@ -186,9 +193,17 @@ const EditProfileModal = ({onClose, isOpen}: EditProfileModalProps) => {
         <View style={style.section}>
           <Text style={style.headerTitle}>TAGS</Text>
         </View>
-        <Text onPress={() => console.log('Tag')} style={style.tagsContainer}>
-          <Text style={style.tagText}>Add Tag</Text>
-        </Text>
+        <TouchableOpacity
+          onPress={() => setEditTagsModalVisible(true)}
+          style={style.tagsContainer}>
+          {user?.tags ? (
+            user.tags.map(tag => (
+              <Text style={[style.tagText, style.tagBadge]}>#{tag.label}</Text>
+            ))
+          ) : (
+            <Text style={style.tagText}>Add Tag</Text>
+          )}
+        </TouchableOpacity>
 
         <View style={style.section}>
           <Text style={style.headerTitle}>BIRTH DATE</Text>
@@ -197,16 +212,14 @@ const EditProfileModal = ({onClose, isOpen}: EditProfileModalProps) => {
           <Text
             style={style.dateContent}
             onPress={() => setIsShowBirthDate(true)}>
-            {moment(user?.birthdate, 'YYYY-MM-DDTHH:mm:ss.SSSZ').format(
-              'DD-MM-YYYY',
-            )}
+            {moment(user?.birthdate, 'DD-MM-YYYY').format('DD-MM-YYYY')}
           </Text>
           <DateTimePickerModal
             isVisible={isShowBirthDate}
             mode="date"
             minimumDate={new Date(1900, 0, 1)}
             maximumDate={maxBirthDate}
-            date={user?.birthdate ? new Date(user.birthdate) : new Date()}
+            date={moment(user?.birthdate, 'DD-MM-YYYY').toDate()}
             onConfirm={date => {
               setIsShowBirthDate(false);
               handleBirthdateUpdate(date);

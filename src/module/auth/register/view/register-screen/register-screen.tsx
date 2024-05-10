@@ -28,6 +28,7 @@ import {setLoggedIn} from '../../../../../redux/AuthSlice/authSlice';
 import {useNavigation} from '@react-navigation/native';
 import {AuthStackNavProp} from '../../../../../navigation/stack/auth-stack/auth-stack-types';
 import {UserType} from '../../../../../constants/types';
+import moment from 'moment';
 
 const RegisterScreen = () => {
   const navigation = useNavigation<AuthStackNavProp>();
@@ -41,14 +42,13 @@ const RegisterScreen = () => {
     gender: '',
     photo: '',
     about: '',
-    createdAt: '',
-    birthdate: new Date(),
-    biography: '',
+    createdAt: moment().format('DD-MM-YYYY'),
+    birthdate: '',
     followers: [],
     following: [],
     tags: [],
     gallery: [],
-    status: '',
+    status: true,
     location: {
       city: '',
       country: '',

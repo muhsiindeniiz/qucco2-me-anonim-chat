@@ -56,7 +56,8 @@ const ProfileDetailModal = ({onClose, isOpen}: ProfileDetailModalProps) => {
           <Text style={style.biography}>{user?.about}</Text>
         </View>
         <Text style={style.createdAt}>
-          Registered: {moment(user?.createdAt).format('DD.MM.YYYY')}
+          Registered:{' '}
+          {moment(user?.createdAt, 'DD-MM-YYYY').format('DD-MM-YYYY')}
         </Text>
       </SafeAreaView>
     </Modal>

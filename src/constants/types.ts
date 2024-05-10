@@ -1,22 +1,27 @@
+import { Tag } from '../components/tag-input';
+
 export type UserType = {
   id: string;
   username: string;
-  anonNickname: string;
+  anonNickname?: string;
   email: string;
   password: string;
   name: string;
-  birthdate: Date;
+  birthdate: string;
+  status: boolean;
   gender: string;
   about: string;
   photo: string;
   gallery: string[];
-  tags: string[];
+  tags: Tag[];
   createdAt: string;
   followers: string[];
   following: string[];
-  settings: settings;
-  blocked: Blocked[];
+  settings?: settings;
+  blocked?: Blocked[];
+  location: LocationType;
 };
+
 export type Strings = {
   [key: string]: string;
 };
@@ -26,6 +31,10 @@ export type FriendType = {
   about: string;
   createdAt: string;
 };
+export type LocationType = {
+  city: string;
+  country: string;
+}
 export type PostType = {
   id: string;
   text: string;

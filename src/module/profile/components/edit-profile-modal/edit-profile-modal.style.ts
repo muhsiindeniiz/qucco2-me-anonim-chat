@@ -139,7 +139,10 @@ export default StyleSheet.create({
         marginRight: 'auto',
         paddingLeft: size(18),
         paddingVertical: size(12),
-        marginBottom: size(12)
+        marginBottom: size(12),
+        flexDirection: 'row',
+        gap: 10,
+        flexWrap: 'wrap'
     },
     tagText: {
         fontSize: fontSize(10),
@@ -155,5 +158,14 @@ export default StyleSheet.create({
     dateContent: {
         paddingHorizontal: size(18),
         color: '#aaa',
+    },
+    tagBadge: {
+        paddingHorizontal: 6,
+        paddingVertical: 6,
+        backgroundColor: '#06101B',
+        borderColor: '#FF7924',
+        borderWidth: 1,
+        borderRadius: 6,
+        color: '#FF7924'
     }
 });

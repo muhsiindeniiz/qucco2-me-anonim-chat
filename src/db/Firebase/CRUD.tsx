@@ -63,16 +63,14 @@ export const register = async (props: UserType): Promise<string | null> => {
       anonNickname: generateUniqueAnonymousName(),
       about,
       photo: photoURL,
-      createdAt: `${new Date().getDate()}/${
-        new Date().getMonth() + 1
-      }/${new Date().getFullYear()}`,
+      createdAt: moment().format('DD-MM-YYYY'),
       birthdate,
       biography: '',
       followers: [],
       following: [],
       tags: [],
       gallery: [],
-      status: '',
+      status: true,
       settings: {
         lastSeen: true,
         notifications: {
@@ -136,6 +134,7 @@ export const login = async (
 import {sendPasswordResetEmail} from 'firebase/auth';
 import {UserType} from '../../constants/types';
 import generateUniqueAnonymousName from '../../utils/uniqueNameCreator';
+import moment from 'moment';
 
 export const sendPasswordReset = async (email: string) => {
   try {
