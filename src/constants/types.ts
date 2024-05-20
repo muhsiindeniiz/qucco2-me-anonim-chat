@@ -7,7 +7,7 @@ export type UserType = {
   email: string;
   password: string;
   name: string;
-  birthdate: string;
+  birthdate: string | Date;
   status: boolean;
   gender: string;
   about: string;
@@ -20,6 +20,7 @@ export type UserType = {
   settings?: settings;
   blocked?: Blocked[];
   location: LocationType;
+  badges: Badges
 };
 
 export type Strings = {
@@ -75,6 +76,14 @@ export type Message = {
   text: string;
   createdAt: string;
 };
+
+export type Badges = {
+  CONVERSATIONS: boolean;
+  FOLLOWERS: boolean;
+  LIKES: boolean;
+  SUPER_MESSAGE: boolean;
+}
+
 export type GeneralType =
   | UserType
   | Strings

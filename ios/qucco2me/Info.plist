@@ -25,6 +25,8 @@
 		<string>Zocial.ttf</string>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
+	<key>NSCameraUsageDescription</key>
+  	<string>[REASON]</string>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
 	<string>qucco2me</string>

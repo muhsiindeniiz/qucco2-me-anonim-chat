@@ -39,7 +39,7 @@ export default StyleSheet.create({
         backgroundColor: 'lightgray',
     },
     photo: {
-        height: size(100),
+        height: size(120),
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -73,6 +73,9 @@ export default StyleSheet.create({
         backgroundColor: '#EC28C8',
     },
     conversations: {
+        backgroundColor: '#1DC170',
+    },
+    super_message: {
         backgroundColor: '#1DC170',
     },
     followers: {
@@ -167,5 +170,11 @@ export default StyleSheet.create({
         borderWidth: 1,
         borderRadius: 6,
         color: '#FF7924'
+    },
+    badgeActive: {
+        opacity: 1
+    },
+    badgePassive: {
+        opacity: 0.5
     }
 });

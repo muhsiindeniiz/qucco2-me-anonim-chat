@@ -5,10 +5,11 @@ import {
   ScrollView,
   Platform,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import useStayLoggedin from '../../../../utils/useStayLoggedin';
-import {UserType} from '../../../../constants/types';
+import {Badges, UserType} from '../../../../constants/types';
 import {getUser} from '../../query/setting';
 import {EditProfileModalProps} from './edit-profile-modal.type';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -24,6 +25,11 @@ import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../../redux/store';
 import {setUserInfo} from '../../../../redux/AuthSlice/authSlice';
 import EditTagsModal from '../edit-tags-modal';
+import ImagePicker, {
+  ImagePickerResponse,
+  launchCamera,
+  launchImageLibrary,
+} from 'react-native-image-picker';
 
 const EditProfileModal = ({onClose, isOpen}: EditProfileModalProps) => {
   const id = useStayLoggedin();
@@ -50,7 +56,7 @@ const EditProfileModal = ({onClose, isOpen}: EditProfileModalProps) => {
 
   const handleBirthdateUpdate = async (newBirthdate: Date) => {
     try {
-      if (!id) {
+      if (!id || !user) {
         return;
       }
       const isoString = newBirthdate.toISOString();
@@ -58,20 +64,61 @@ const EditProfileModal = ({onClose, isOpen}: EditProfileModalProps) => {
         birthdate: isoString,
       });
       dispatch(
-        setUserInfo((prevUser: UserType) => {
-          if (!prevUser) {
-            return null;
-          }
-          return {
-            ...prevUser,
-            birthdate: newBirthdate,
-          };
+        setUserInfo({
+          ...user,
+          birthdate: newBirthdate,
         }),
       );
     } catch (error) {
       console.error('Error updating user birthdate:', error);
     }
   };
+
+  const handleBadgeUpdate = async (badge: keyof Badges, value: boolean) => {
+    try {
+      if (!id || !user) {
+        return;
+      }
+
+      await updateDoc(doc(firestore, 'users', id), {
+        badges: {
+          ...user.badges,
+          [badge]: value,
+        },
+      });
+
+      const updatedUserData = await getUser(id);
+
+      dispatch(setUserInfo(updatedUserData as UserType));
+    } catch (error) {
+      console.error('Error updating user badges:', error);
+    }
+  };
+
+  const renderBadge = (badge: keyof Badges, label: string) => (
+    <TouchableOpacity
+      style={[
+        style.actionContainer,
+        user?.badges && user.badges[badge]
+          ? style.badgeActive
+          : style.badgePassive,
+      ]}
+      onPress={() => handleBadgeUpdate(badge, !user?.badges[badge])}>
+      <View style={[style.icon, style[badge.toLowerCase()]]}>
+        {badge === 'FOLLOWERS' ? (
+          <FanIcons name="user-plus" size={20} style={style.actionIcon} />
+        ) : (
+          <IonIcons
+            name="chatbubble-sharp"
+            size={22}
+            style={style.actionIcon}
+          />
+        )}
+      </View>
+      <Text style={style.actionValue}>0</Text>
+      <Text style={style.actionTitle}>{label}</Text>
+    </TouchableOpacity>
+  );
 
   const calculateMaximumBirthDate = () => {
     const today = new Date();
@@ -84,6 +131,42 @@ const EditProfileModal = ({onClose, isOpen}: EditProfileModalProps) => {
   };
 
   const maxBirthDate = calculateMaximumBirthDate();
+
+  const takePhoto = () => {
+    launchCamera(
+      {
+        mediaType: 'photo',
+        quality: 0.5,
+      },
+      (response: ImagePickerResponse) => {
+        if (!response.didCancel) {
+          // Kullanıcı fotoğrafı seçtiyse, response.uri değeri kullanılabilir
+        }
+      },
+    );
+  };
+
+  const openPhotoLibrary = () => {
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+        quality: 0.5,
+      },
+      (response: ImagePickerResponse) => {
+        if (!response.didCancel) {
+          // Kullanıcı fotoğrafı seçtiyse, response.uri değeri kullanılabilir
+        }
+      },
+    );
+  };
+
+  const handleAddPhoto = () => {
+    Alert.alert('Add Photo', 'Select an option', [
+      {text: 'Take Photo', onPress: () => takePhoto()},
+      {text: 'Photo Library', onPress: () => openPhotoLibrary()},
+      {text: 'Cancel', style: 'cancel'},
+    ]);
+  };
 
   return (
     <Modal
@@ -112,9 +195,12 @@ const EditProfileModal = ({onClose, isOpen}: EditProfileModalProps) => {
         </View>
         <View style={style.gallery}>
           {Array.from({length: 1}).map((_, i) => (
-            <View style={[style.photo, style.addPhoto]} key={i}>
+            <TouchableOpacity
+              style={[style.photo, style.addPhoto]}
+              onPress={handleAddPhoto}
+              key={i}>
               <Text>Add Photo</Text>
-            </View>
+            </TouchableOpacity>
           ))}
         </View>
 
@@ -127,48 +213,10 @@ const EditProfileModal = ({onClose, isOpen}: EditProfileModalProps) => {
             showsHorizontalScrollIndicator={false}
             pagingEnabled={true}>
             <View style={style.badgesContainer}>
-              <View style={style.actionContainer}>
-                <View style={[style.icon, style.conversations]}>
-                  <IonIcons
-                    name="chatbubble-sharp"
-                    size={22}
-                    style={style.actionIcon}
-                  />
-                </View>
-                <Text style={style.actionValue}>0</Text>
-                <Text style={style.actionTitle}>super messages</Text>
-              </View>
-              <View style={style.actionContainer}>
-                <View style={[style.icon, style.conversations]}>
-                  <IonIcons
-                    name="chatbubble-sharp"
-                    size={22}
-                    style={style.actionIcon}
-                  />
-                </View>
-                <Text style={style.actionValue}>5</Text>
-                <Text style={style.actionTitle}>conversations</Text>
-              </View>
-              <View style={style.actionContainer}>
-                <View style={[style.icon, style.likes]}>
-                  <IonIcons name="heart" size={22} style={style.actionIcon} />
-                </View>
-                <Text style={style.actionValue}>0</Text>
-                <Text style={style.actionTitle}>likes</Text>
-              </View>
-              <View style={style.actionContainer}>
-                <View style={[style.icon, style.followers]}>
-                  <FanIcons
-                    name="user-plus"
-                    size={20}
-                    style={style.actionIcon}
-                  />
-                </View>
-                <Text style={style.actionValue}>
-                  {user?.followers.length ?? 0}
-                </Text>
-                <Text style={style.actionTitle}>followers</Text>
-              </View>
+              {renderBadge('SUPER_MESSAGE', 'Super Messages')}
+              {renderBadge('CONVERSATIONS', 'Conversations')}
+              {renderBadge('LIKES', 'Likes')}
+              {renderBadge('FOLLOWERS', 'Followers')}
             </View>
           </ScrollView>
           <Text style={[style.section, style.bedgeDescription]}>
@@ -198,7 +246,9 @@ const EditProfileModal = ({onClose, isOpen}: EditProfileModalProps) => {
           style={style.tagsContainer}>
           {user?.tags ? (
             user.tags.map(tag => (
-              <Text style={[style.tagText, style.tagBadge]}>#{tag.label}</Text>
+              <Text key={tag.id} style={[style.tagText, style.tagBadge]}>
+                #{tag.label}
+              </Text>
             ))
           ) : (
             <Text style={style.tagText}>Add Tag</Text>
