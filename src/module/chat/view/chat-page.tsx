@@ -1,54 +1,56 @@
-import {Text, TextInput, View} from 'react-native';
 import React from 'react';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import strings from '../../../locale/locale';
-import {fontSize, height, size, width} from 'react-native-responsive-sizes';
-import Feather from 'react-native-vector-icons/Feather';
+import {View, Text, FlatList, Image, TouchableOpacity} from 'react-native';
+import {useChats} from '../utils/sendMessage';
+import {ChatStackNavProp} from '../../../navigation/stack/chat-stack/chat-stack-types';
 import styles from '../style/styles';
 
-const Chat = () => {
-  const [chats, setChats] = React.useState([]);
+const ChatList = ({navigation}: ChatStackNavProp<'ChatList'>) => {
+  const currentUserId = 'currentUserId'; // Bu değişkeni giriş yapan kullanıcının ID'si ile değiştirin
+  const {chats, loadingData, error} = useChats(currentUserId);
+
+  if (loadingData) {
+    return <Text>Loading...</Text>;
+  }
+
+  if (error) {
+    return <Text>Error: {error.message}</Text>;
+  }
+
+  const chatData = Object.keys(chats).map(chatId => {
+    const chat = chats[chatId];
+    const participant = chat.participants.find(p => p.id !== currentUserId);
+    const isSender =
+      chat.messages[Object.keys(chat.messages)[0]].senderId === currentUserId;
+    return {
+      id: chatId,
+      userName: isSender ? participant?.userName : participant?.anonNick,
+      photo: isSender ? participant?.profileImage : null,
+    };
+  });
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>{strings.chats}</Text>
-      </View>
-      <View style={styles.searchContainer}>
-        <Feather
-          name="search"
-          size={size(20)}
-          color="black"
-          style={{position: 'absolute', left: size(30), zIndex: 1}}
-        />
-        <TextInput
-          style={{
-            width: '90%',
-            height: height(5),
-            borderWidth: size(1),
-            borderRadius: size(25),
-            borderColor: 'grey',
-            backgroundColor: 'white',
-            alignSelf: 'center',
-            paddingLeft: size(40),
-          }}
-          placeholder={strings.search}
-        />
-      </View>
-      <View style={styles.chatContainer}>
-        {chats.length > 0 ? null : (
-          <Text
-            style={{
-              textAlign: 'center',
-              marginBottom: height(8),
-              fontSize: fontSize(16),
-              width: width(57),
-            }}>
-            {strings.noChats}
-          </Text>
+    <View style={styles.container}>
+      <FlatList
+        data={chatData}
+        keyExtractor={item => item.id}
+        renderItem={({item}) => (
+          <TouchableOpacity
+            style={styles.chatItem}
+            onPress={() =>
+              navigation.navigate('NewChat', {
+                item: item,
+                currentUser: currentUserId,
+              })
+            }>
+            {item.photo && (
+              <Image source={{uri: item.photo}} style={styles.thumbNail} />
+            )}
+            <Text style={styles.thumbName}>{item.userName}</Text>
+          </TouchableOpacity>
         )}
-      </View>
-    </SafeAreaView>
+      />
+    </View>
   );
 };
 
-export default Chat;
+export default ChatList;

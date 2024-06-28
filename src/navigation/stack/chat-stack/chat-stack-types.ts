@@ -2,7 +2,7 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {GeneralType, UserType} from '../../../constants/types';
 
 export type ChatStackParamList = {
-  Chat: undefined;
+  ChatList: undefined;
   NewChat: {item: UserType; currentUser: UserType};
 } & {
   [stackName: string]: {

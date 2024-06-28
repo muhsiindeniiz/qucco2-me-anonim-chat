@@ -24,7 +24,7 @@ import {
 } from '../../../../../utils/toasts';
 import {storage} from '../../../../../constants/app';
 import {useDispatch} from 'react-redux';
-import {setLoggedIn} from '../../../../../redux/AuthSlice/authSlice';
+import {setLoggedIn} from '../../../../../redux/auth-slice/auth-slice';
 import {useNavigation} from '@react-navigation/native';
 import {AuthStackNavProp} from '../../../../../navigation/stack/auth-stack/auth-stack-types';
 import {UserType} from '../../../../../constants/types';
