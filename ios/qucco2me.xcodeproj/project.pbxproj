@@ -11,10 +11,10 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		52467828CA1CC91A9FB4C36C /* Pods_qucco2me_qucco2meTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A864F814DDDC1C67A797DA7 /* Pods_qucco2me_qucco2meTests.framework */; };
 		5AC25B4B2BD8FB2A0091E84B /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 5AC25B4A2BD8FB2A0091E84B /* Fonts */; };
-		799FDE1C53F2F796EF3B4DBA /* libPods-qucco2me-qucco2meTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AED1A22112D5A38D1CCCC46C /* libPods-qucco2me-qucco2meTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		C5E27CF5451412BB136AD7D9 /* libPods-qucco2me.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4596E62C6960462286DDE148 /* libPods-qucco2me.a */; };
+		84C6482513E4D56151602F35 /* Pods_qucco2me.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 935AEFE2C7F29AD4F679A60E /* Pods_qucco2me.framework */; };
 		ED42C69E27C4DF7395D492ED /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 3E0AB4545B53E16B1D30AA65 /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
@@ -39,11 +39,11 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = qucco2me/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = qucco2me/main.m; sourceTree = "<group>"; };
 		3E0AB4545B53E16B1D30AA65 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = qucco2me/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		4596E62C6960462286DDE148 /* libPods-qucco2me.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-qucco2me.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		459F9348E7F107D784441A60 /* Pods-qucco2me.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-qucco2me.debug.xcconfig"; path = "Target Support Files/Pods-qucco2me/Pods-qucco2me.debug.xcconfig"; sourceTree = "<group>"; };
 		5AC25B4A2BD8FB2A0091E84B /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Fonts; path = "../node_modules/react-native-vector-icons/Fonts"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = qucco2me/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		AED1A22112D5A38D1CCCC46C /* libPods-qucco2me-qucco2meTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-qucco2me-qucco2meTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8A864F814DDDC1C67A797DA7 /* Pods_qucco2me_qucco2meTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_qucco2me_qucco2meTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		935AEFE2C7F29AD4F679A60E /* Pods_qucco2me.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_qucco2me.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF0ADBE99CEC4E1666F18C10 /* Pods-qucco2me-qucco2meTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-qucco2me-qucco2meTests.release.xcconfig"; path = "Target Support Files/Pods-qucco2me-qucco2meTests/Pods-qucco2me-qucco2meTests.release.xcconfig"; sourceTree = "<group>"; };
 		BE764719B2BD56C3C9095BFF /* Pods-qucco2me.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-qucco2me.release.xcconfig"; path = "Target Support Files/Pods-qucco2me/Pods-qucco2me.release.xcconfig"; sourceTree = "<group>"; };
 		C16914C95335CA2FDA962C52 /* Pods-qucco2me-qucco2meTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-qucco2me-qucco2meTests.debug.xcconfig"; path = "Target Support Files/Pods-qucco2me-qucco2meTests/Pods-qucco2me-qucco2meTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -55,7 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				799FDE1C53F2F796EF3B4DBA /* libPods-qucco2me-qucco2meTests.a in Frameworks */,
+				52467828CA1CC91A9FB4C36C /* Pods_qucco2me_qucco2meTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,7 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C5E27CF5451412BB136AD7D9 /* libPods-qucco2me.a in Frameworks */,
+				84C6482513E4D56151602F35 /* Pods_qucco2me.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,8 +106,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				4596E62C6960462286DDE148 /* libPods-qucco2me.a */,
-				AED1A22112D5A38D1CCCC46C /* libPods-qucco2me-qucco2meTests.a */,
+				935AEFE2C7F29AD4F679A60E /* Pods_qucco2me.framework */,
+				8A864F814DDDC1C67A797DA7 /* Pods_qucco2me_qucco2meTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -591,6 +591,17 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon/ReactCommon.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon/ReactCommon.framework/Headers/react/nativemodule/core",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon-Samples/ReactCommon_Samples.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon-Samples/ReactCommon_Samples.framework/Headers/platform/ios",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-Fabric/React_Fabric.framework/Headers/react/renderer/components/view/platform/cxx",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-NativeModulesApple/React_NativeModulesApple.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-graphics/React_graphics.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-graphics/React_graphics.framework/Headers/react/renderer/graphics/platform/ios",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD = "";
 				LDPLUSPLUS = "";
@@ -669,6 +680,17 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon/ReactCommon.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon/ReactCommon.framework/Headers/react/nativemodule/core",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon-Samples/ReactCommon_Samples.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon-Samples/ReactCommon_Samples.framework/Headers/platform/ios",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-Fabric/React_Fabric.framework/Headers/react/renderer/components/view/platform/cxx",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-NativeModulesApple/React_NativeModulesApple.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-graphics/React_graphics.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-graphics/React_graphics.framework/Headers/react/renderer/graphics/platform/ios",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD = "";
 				LDPLUSPLUS = "";
