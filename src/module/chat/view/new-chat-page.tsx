@@ -1,4 +1,11 @@
-import {View, Image, Text, TextInput, FlatList} from 'react-native';
+import {
+  View,
+  Image,
+  Text,
+  TextInput,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
 import React, {useState} from 'react';
 import styles from '../style/styles';
 import Feather from 'react-native-vector-icons/Feather';
@@ -8,36 +15,42 @@ import {fontSize, height, size, width} from 'react-native-responsive-sizes';
 import Entypo from 'react-native-vector-icons/Entypo';
 import strings from '../../../locale/locale';
 import EmojiPicker from 'rn-emoji-keyboard';
-import 'firebase/compat/firestore';
-import {sendMessage, useMessages} from '../utils/sendMessage';
+import { sendMessage, useMessages } from '../utils/sendMessage';
 
 const NewChatPage = ({route, navigation}: ChatStackNavProp<'NewChat'>) => {
   const {item: user, currentUser} = route.params;
+
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState('');
-  const messages = useMessages(currentUser.id, user.id);
   const [emoji, setEmoji] = useState([]);
 
-  const handleSendMessage = () => {
-    if (message.trim()) {
-      sendMessage(message, currentUser.id, user.id);
+  // Chat ID
+  const chatId = `${currentUser.id}_${user.id}`;
+
+  // Fetch messages
+  const messages = useMessages(chatId);
+
+  const handlePickEmoji = (emojis: any) => {
+    setEmoji(emojis);
+    setMessage(message + emojis.join(''));
+  };
+
+  const handleSendMessage = async () => {
+    if (message.trim().length > 0) {
+      await sendMessage(currentUser.id, user.id, message);
       setMessage('');
+      setEmoji([]);
     }
   };
-  const handlePickEmoji = (emojis: any) => {
-    setEmoji(emojis.emoji);
-    setMessage(message + emoji);
-  };
+
   return (
     <View style={styles.container}>
       <View style={styles.chatHeader}>
-        <Feather
-          style={{position: 'absolute', left: size(10)}}
-          name="chevron-left"
-          size={fontSize(22)}
-          color="white"
-          onPress={() => navigation.navigate('Chat')}
-        />
+        <TouchableOpacity
+          style={{position: 'absolute', left: size(10), zIndex: 1}}
+          onPress={() => navigation.goBack()}>
+          <Feather name="chevron-left" size={fontSize(22)} color="white" />
+        </TouchableOpacity>
         <Image source={{uri: user?.photo}} style={styles.thumbNail} />
         <Text style={styles.thumbName}>
           {user?.username.length > 12
@@ -104,14 +117,14 @@ const NewChatPage = ({route, navigation}: ChatStackNavProp<'NewChat'>) => {
             <View
               style={{
                 backgroundColor:
-                  item.senderId === currentUser.id ? 'blue' : 'green',
+                  item.sender === currentUser.id ? 'blue' : 'green',
                 borderRadius: 5,
                 padding: 10,
                 margin: 5,
                 alignSelf:
-                  item.senderId === currentUser.id ? 'flex-end' : 'flex-start',
+                  item.sender === currentUser.id ? 'flex-end' : 'flex-start',
               }}>
-              <Text style={{color: 'white'}}>{item.text}</Text>
+              <Text style={{color: 'white'}}>{item.content}</Text>
             </View>
           )}
           inverted
@@ -137,9 +150,9 @@ const NewChatPage = ({route, navigation}: ChatStackNavProp<'NewChat'>) => {
           onPress={() => setIsOpen(true)}
         />
         <EmojiPicker
-          onEmojiSelected={emojis => handlePickEmoji(emojis)}
+          onEmojiSelected={handlePickEmoji}
           allowMultipleSelections
-          selectedEmojis={[]}
+          selectedEmojis={emoji}
           enableCategoryChangeAnimation
           open={isOpen}
           onClose={() => setIsOpen(false)}
