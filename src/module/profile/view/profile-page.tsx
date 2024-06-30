@@ -20,8 +20,7 @@ import {UserType} from '../../../constants/types';
 import EditProfileModal from '../components/edit-profile-modal';
 import {AuthStackNavProp} from '../../../navigation/stack/auth-stack/auth-stack-types';
 import {useDispatch} from 'react-redux';
-import {setUserData} from '../../../redux/ShuffleSlice/shuffleSlice';
-import {setUserInfo} from '../../../redux/AuthSlice/authSlice';
+import { setUserInfo } from '../../../redux/auth-slice/auth-slice';
 
 const Profile = () => {
   const id = useStayLoggedin();

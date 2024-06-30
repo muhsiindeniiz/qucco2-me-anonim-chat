@@ -9,8 +9,8 @@ import {doc, updateDoc} from 'firebase/firestore';
 import {firestore} from '../../../../db/Firebase/config';
 import {getUser} from '../../query/setting';
 import {useDispatch} from 'react-redux';
-import {setUserInfo} from '../../../../redux/AuthSlice/authSlice';
 import {UserType} from '../../../../constants/types';
+import { setUserInfo } from '../../../../redux/auth-slice/auth-slice';
 
 const BioDetailModal = ({onClose, isOpen, biography}: BioDetailModalProps) => {
   const id = useStayLoggedin();

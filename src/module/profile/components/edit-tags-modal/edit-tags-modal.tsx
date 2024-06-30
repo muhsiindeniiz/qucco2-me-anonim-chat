@@ -16,9 +16,9 @@ import {collection, doc, getDocs, setDoc, updateDoc} from 'firebase/firestore';
 import {firestore} from '../../../../db/Firebase/config';
 import generateUniqueAnonymousName from '../../../../utils/uniqueNameCreator';
 import {getTags, getUser} from '../../query/setting';
-import {setTags, setUserInfo} from '../../../../redux/AuthSlice/authSlice';
 import {useDispatch} from 'react-redux';
 import {UserType} from '../../../../constants/types';
+import { setTags, setUserInfo } from '../../../../redux/auth-slice/auth-slice';
 
 const EditTagsModal = ({onClose, isOpen, tags}: EditTagsModalProps) => {
   const id = useStayLoggedin();

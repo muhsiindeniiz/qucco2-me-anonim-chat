@@ -23,13 +23,13 @@ import {firestore} from '../../../../db/Firebase/config';
 import BioDetailModal from '../bio-detail-modal';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../../redux/store';
-import {setUserInfo} from '../../../../redux/AuthSlice/authSlice';
 import EditTagsModal from '../edit-tags-modal';
 import ImagePicker, {
   ImagePickerResponse,
   launchCamera,
   launchImageLibrary,
 } from 'react-native-image-picker';
+import { setUserInfo } from '../../../../redux/auth-slice/auth-slice';
 
 const EditProfileModal = ({onClose, isOpen}: EditProfileModalProps) => {
   const id = useStayLoggedin();
