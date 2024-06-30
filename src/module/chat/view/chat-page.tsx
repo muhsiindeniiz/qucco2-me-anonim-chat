@@ -1,54 +1,91 @@
-import {Text, TextInput, View} from 'react-native';
-import React from 'react';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import strings from '../../../locale/locale';
-import {fontSize, height, size, width} from 'react-native-responsive-sizes';
-import Feather from 'react-native-vector-icons/Feather';
+import React, {useState, useEffect} from 'react';
+import {fetchChatList} from '../utils/sendMessage';
+import {storage} from '../../../constants/app';
+import {FlatList, Image, Text, TouchableOpacity, View} from 'react-native';
 import styles from '../style/styles';
+import {UserType} from '../../../constants/types';
+import {useNavigation} from '@react-navigation/native';
+import {ChatStackNavProp} from '../../../navigation/stack/chat-stack/chat-stack-types';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../../redux/store';
+import {size} from 'react-native-responsive-sizes';
 
-const Chat = () => {
-  const [chats, setChats] = React.useState([]);
+type ChatListType = {
+  id: string;
+  senderId: string;
+  recipientId: string;
+  user: UserType;
+  lastMessage: any; // Buraya uygun mesaj veri yapısını tanımlamanız gerekiyor
+};
+
+const ChatList = () => {
+  const navigation = useNavigation<ChatStackNavProp['navigation']>();
+  const userId = storage.getString('userId') || '';
+  const cleanedUserId = userId.replace(/"/g, ''); // Tırnakları temizle
+  const [chats, setChats] = useState<ChatListType[]>([]);
+  const currentUser = useSelector(
+    (state: RootState) => state.shuffle.currentUser,
+  );
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const fetchedChats = await fetchChatList(cleanedUserId);
+      const chatsWithLastMessage: ChatListType[] = fetchedChats.map(chat => ({
+        id: chat.id,
+        senderId: chat.id.split('_')[0],
+        recipientId: chat.id.split('_')[1],
+        user: chat.user,
+        lastMessage:
+          chat.messages.length > 0
+            ? chat.messages[chat.messages.length - 1]
+            : null,
+      }));
+      setChats(chatsWithLastMessage);
+    };
+    fetchData();
+  }, [cleanedUserId]);
+
+  console.log(chats);
+
+  const renderItem = ({item}: {item: ChatListType}) => (
+    <TouchableOpacity
+      style={styles.item}
+      onPress={() =>
+        navigation.navigate('NewChat', {item: item.user, currentUser})
+      }>
+      {item.senderId === cleanedUserId ? (
+        <>
+          <Image source={{uri: item.user.photo}} style={styles.avatar} />
+          <Text style={styles.userText}>{item.user.username}</Text>
+        </>
+      ) : (
+        <View style={styles.avatarPlaceholder}>
+          <Text style={styles.userText}>{item.user.anonNickname}</Text>
+        </View>
+      )}
+      {item.lastMessage && (
+        <Text style={styles.lastMessage}>{item.lastMessage.content}</Text>
+      )}
+    </TouchableOpacity>
+  );
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>{strings.chats}</Text>
+    <View style={styles.container}>
+      <View style={styles.headerContainer}>
+        <Text style={styles.title}>Chat List</Text>
       </View>
-      <View style={styles.searchContainer}>
-        <Feather
-          name="search"
-          size={size(20)}
-          color="black"
-          style={{position: 'absolute', left: size(30), zIndex: 1}}
+      {chats.length === 0 ? (
+        <Text>No chats available</Text>
+      ) : (
+        <FlatList
+          data={chats}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+          style={{width: '95%', top: size(100)}}
         />
-        <TextInput
-          style={{
-            width: '90%',
-            height: height(5),
-            borderWidth: size(1),
-            borderRadius: size(25),
-            borderColor: 'grey',
-            backgroundColor: 'white',
-            alignSelf: 'center',
-            paddingLeft: size(40),
-          }}
-          placeholder={strings.search}
-        />
-      </View>
-      <View style={styles.chatContainer}>
-        {chats.length > 0 ? null : (
-          <Text
-            style={{
-              textAlign: 'center',
-              marginBottom: height(8),
-              fontSize: fontSize(16),
-              width: width(57),
-            }}>
-            {strings.noChats}
-          </Text>
-        )}
-      </View>
-    </SafeAreaView>
+      )}
+    </View>
   );
 };
 
-export default Chat;
+export default ChatList;

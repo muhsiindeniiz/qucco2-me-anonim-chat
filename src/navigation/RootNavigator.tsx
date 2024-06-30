@@ -7,18 +7,25 @@ import SplashScreen from '../components/splash-screen';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../redux/store';
 import {useUserData} from '../utils/useUserData';
-import {setCurrentUser, setUserData} from '../redux/ShuffleSlice/shuffleSlice';
+import {
+  setCurrentUser,
+  setUserData,
+} from '../redux/shuffle-slice/shuffle-slice';
 
 const AppNavigator = () => {
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
-  const isloggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
-  const userId = storage.getString('userId');
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+  const userId = storage.getString('userId') ?? ''; // Provide a default value for userId
+  const cleanedUserId = userId.replace(/"/g, ''); // Tırnakları temizle
   const dispatch = useDispatch();
   const {userData, currentUser} = useUserData();
+
+  
+
   useEffect(() => {
     const checkAuthentication = async () => {
-      if (isloggedIn === true || userId) {
+      if (isLoggedIn === true || userId) {
         if (userId) {
           setAuthenticated(true);
           dispatch(setUserData(userData));
@@ -38,7 +45,7 @@ const AppNavigator = () => {
       }
     };
     checkAuthentication();
-  }, [isloggedIn, userId, dispatch, userData, currentUser]);
+  }, [isLoggedIn, userId, dispatch, userData, currentUser]);
 
   if (loading) {
     return <SplashScreen />;

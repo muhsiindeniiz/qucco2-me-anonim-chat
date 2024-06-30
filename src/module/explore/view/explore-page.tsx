@@ -17,7 +17,7 @@ import {fontSize, size} from 'react-native-responsive-sizes';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {ExploreStackNavProp} from '../../../navigation/stack/explore-stack/explore-stack-types';
-import {setVisible} from '../../../redux/tabbarVisibleSlice/tabbarVisibleSlice';
+import {setVisible} from '../../../redux/tabbar-visible-slice/tabbar-visible-slice';
 import {UserType} from '../../../constants/types';
 import {useNavigation} from '@react-navigation/native';
 import useVisible from '../../../utils/tabbarVisible';

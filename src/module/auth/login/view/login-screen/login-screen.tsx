@@ -8,7 +8,7 @@ import {useDispatch} from 'react-redux';
 import styles from './login-screen.style';
 import {login} from '../../../../../db/Firebase/CRUD';
 import {storage} from '../../../../../constants/app';
-import {setLoggedIn} from '../../../../../redux/AuthSlice/authSlice';
+import {setLoggedIn} from '../../../../../redux/auth-slice/auth-slice';
 import {emptyFieldToast, wrongLoginToast} from '../../../../../utils/toasts';
 import {AuthStackNavProp} from '../../../../../navigation/stack/auth-stack/auth-stack-types';
 
