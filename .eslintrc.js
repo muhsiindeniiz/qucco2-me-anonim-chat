@@ -12,5 +12,8 @@ module.exports = {
   rules: {
     'prettier/prettier': 0,
     'react-native/no-inline-styles': 0,
+    'comma-dangle': 'off',
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
   },
 };

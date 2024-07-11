@@ -26,6 +26,8 @@
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>NSCameraUsageDescription</key>
+	<string>[REASON]</string>
 	<key>CFBundleDisplayName</key>
 	<string>qucco2me</string>
 	<key>CFBundleExecutable</key>
