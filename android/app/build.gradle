@@ -67,6 +67,7 @@ def enableProguardInReleaseBuilds = false
  * give correct results when using with locales other than en-US. Note that
  * this variant is about 6MiB larger per architecture than default.
  */
+ 
 def jscFlavor = 'org.webkit:android-jsc:+'
 
 android {
@@ -84,12 +85,12 @@ android {
     }
     signingConfigs {
         release {
-            if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
-                storeFile file(MYAPP_UPLOAD_STORE_FILE)
-                storePassword MYAPP_UPLOAD_STORE_PASSWORD
-                keyAlias MYAPP_UPLOAD_KEY_ALIAS
-                keyPassword MYAPP_UPLOAD_KEY_PASSWORD
-            }
+           
+                storeFile file('my-upload-key.keystore')
+                storePassword "123456"
+                keyAlias "my-key-alias"
+                keyPassword "123456"
+            
         }
         debug {
             storeFile file('debug.keystore')
@@ -116,8 +117,9 @@ android {
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
-    implementation("com.facebook.react:flipper-integration")
 
+ implementation 'io.agora.rtc:full-sdk:4.3.1'
+    implementation 'io.agora.rtc:iris-rtc:4.3.1-build.1'
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
     } else {
